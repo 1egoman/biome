@@ -32,21 +32,17 @@ program
   // if the first part was not a project, reset the variable
   if (project.indexOf('=') !== -1) { project = undefined; }
 
-  // parse out variables
-  const matchVarRegex = /([^ ]+)\=(["'].*["']|[^ ])/gi;
-  let args = process.argv.slice(3).join(' ');
+  // get variables, strip out project if it was passed
+  let args = process.argv.slice(3);
+  if (args[0].indexOf('=') === -1) {
+    args = args.slice(1);
+  }
 
-  let match = matchVarRegex.exec(args);
-  if (match === null) {
+  if (args.length === 0) {
     console.error("No args were passed. Pass variables like NAME=value.")
   } else {
     // collect all matches
-    let allMatches = [];
-    while (match !== null) {
-      allMatches.push(match);
-      match = matchVarRegex.exec(args);
-    }
-
+    let allMatches = args.map(arg => arg.split('='));
     add(project, allMatches).then(out => {
       console.log(`Sourced all variables. Try biome use to try out what you just added.`);
     }).catch(console.log.error.bind(console))

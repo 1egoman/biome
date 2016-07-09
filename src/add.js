@@ -9,7 +9,8 @@ import {biomeFolderName} from './constants';
 export default function add(project, variables) {
   return getEnv(project).then(([vars, project]) => {
     // add all values
-    variables.forEach(([toss, name, value]) => {
+    variables.forEach(([name, value]) => {
+      name = name.trim();
       vars[name] = value;
       console.log(`Exported ${name}="${value}" inside ${project}...`);
     });

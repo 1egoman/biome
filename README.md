@@ -1,3 +1,11 @@
+- `biome init`
+- `biome add`
+- `biome use`
+- `$include within the project.json file`
+- `BIOME_LOCAL_NAME`
+- `BIOME_FOLDER_NAME`
+
+
 # Global files
 A `~/.biome` folder with a json file for each project:
 like `.biome/name.json`:
