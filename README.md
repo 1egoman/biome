@@ -1,10 +1,23 @@
+# Biome
+A small script to manage a project's environment variables.
+
 - `biome init`
+  Creates a new project and links it with the project in the current directory.
 - `biome add`
+  Add a variable to the current or specified project
 - `biome use`
+  Open a subshell sourcing the current or specified project.
 - `$include within the project.json file`
 - `BIOME_LOCAL_NAME`
 - `BIOME_FOLDER_NAME`
 
+## How it works:
+For each project, biome creates 2 files: a local `Biomefile` and a global `project.json`. The local
+`Biomefile` can be committed to source control because it just contains a reference to the global
+project. The `project.json` is stored in `~/.biome/project.json`, where `project` is replaced with
+the identifier in the `Biomefile`. This file is where the environment variables themselves are
+actually stored. Since each user can have a separate `project.json` for each system, everyone can
+customize their config to suit their needs.
 
 # Global files
 A `~/.biome` folder with a json file for each project:

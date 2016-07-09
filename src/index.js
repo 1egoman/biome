@@ -6,12 +6,13 @@ import use, {vars} from './use';
 import add from './add';
 import init from './init';
 import ls from './ls';
+import edit from './edit';
 
 program.version(require("../package").version);
 
 // ----------------------------------------------------------------------------
 // biome init <project>
-// Creatw a new project
+// Create a new project
 // ----------------------------------------------------------------------------
 program
 .command('init [project]')
@@ -59,6 +60,17 @@ program
 .description("Open a shell with a project's associated variables included.")
 .action(project => {
   use(project).catch(console.error.bind(console));
+});
+
+// ----------------------------------------------------------------------------
+// biome edit [project]
+// Open $EDITOR with the project's global json.
+// ----------------------------------------------------------------------------
+program
+.command('edit [project]')
+.description("Open a shell with a project's associated variables included.")
+.action(project => {
+  edit(project).catch(console.error.bind(console));
 });
 
 // ----------------------------------------------------------------------------
