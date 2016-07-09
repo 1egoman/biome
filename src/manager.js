@@ -11,7 +11,21 @@ import {getProjectMetadata} from './local';
 export function findVariablesFor(project) {
   console.info(`Sourcing variables for ${project}...`);
   let biomeProject = path.join(biomeFolderName(), `${project}.json`);
-  return fs.readJson(biomeProject);
+  return fs.readJson(biomeProject).then(vars => {
+    if (vars.$include) {
+      // find all subprojects, and include them
+      return Promise.all(vars.$include.map(getEnv))
+      .then(subProjects => {
+        subProjects = subProjects.map(i => i[0]); // extract just the values
+        let combinedVars = Object.assign.apply(this, subProjects);
+        delete vars.$include;
+        return {...vars, ...combinedVars};
+      });
+    } else {
+      // no including of others
+      return vars;
+    }
+  })
 }
 
 // given a project, return the associated environment vars
