@@ -6,7 +6,7 @@ import {biomeLocalName} from './contants';
 
 // get the project metadata (name) of the project in the cwd,
 // or if specified, a custom directory.
-export function getProjectMetadata(cwd=process.cwd()) {
+export function getProjectMetadata(project, cwd=process.cwd()) {
   let biomeFile = path.join(cwd, biomeLocalName());
   return fs.readJson(biomeFile);
 }

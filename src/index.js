@@ -11,7 +11,7 @@ program.version('0.0.1');
 program
 .command('use [project]')
 .action(project => {
-  use().catch(console.error.bind(console));
+  use(project).catch(console.error.bind(console));
   // console.log(project)
 });
 

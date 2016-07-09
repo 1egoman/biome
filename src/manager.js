@@ -9,14 +9,21 @@ import {getProjectMetadata} from './local';
 // get the project metadata (name) of the project in the cwd,
 // or if specified, a custom directory.
 export function findVariablesFor(project) {
+  console.log(`Sourcing variables for ${project}...`);
   let biomeProject = path.join(biomeFolderName(), `${project}.json`);
   return fs.readJson(biomeProject);
 }
 
 // given a project, return the associated environment vars
 export function getEnv(project) {
-  return getProjectMetadata(project).then(meta => { // get local Biomefile
-    console.log(`Found Biomefile for ${meta.name}...`);
-    return Promise.all([findVariablesFor(meta.name), meta.name]);
-  });
+  if (project) {
+    // return the env variables directly for the project
+    return Promise.all([findVariablesFor(project), project]);
+  } else {
+    // look for a local project
+    return getProjectMetadata(project).then(meta => { // get local Biomefile
+      console.log(`Found Biomefile for ${meta.name}...`);
+      return Promise.all([findVariablesFor(meta.name), meta.name]);
+    });
+  }
 }

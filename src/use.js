@@ -5,8 +5,9 @@ import path from 'path';
 import {getEnv} from './manager';
 import startShell from './startShell';
 
-export default function use() {
-  return getEnv().then(([vars, project]) => {
+// given a 
+export default function use(project) {
+  return getEnv(project).then(([vars, project]) => {
     return startShell(project, vars);
   });
 }
