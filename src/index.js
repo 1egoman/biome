@@ -20,10 +20,7 @@ program
 .description("Create a new project with the specified name, and save an alias to this folder.")
 .action(project => {
   init(project).then(project => {
-    console.log(`
-    Created new project ${project}. Add new vars with ${chalk.green("biome add")} or
-    fire it up with ${chalk.green("biome use")}.
-    `.replace('\n', ''));
+    console.log(`Created new project ${project}. Add new vars with ${chalk.green("biome add")} or fire it up with ${chalk.green("biome use")}.`.replace('\n', ''));
   }).catch(console.error.bind(console));
 });
 
@@ -84,7 +81,11 @@ program
 program
 .command('vars [project]')
 .description("Echo all variables.")
-.action(project => {
+.option('--only-vars', "Only log out a shell script that can be parsed")
+.action((project, {options}) => {
+  if (options.find(i => i.long === '--only-vars')) {
+    console.info = function() {};
+  }
   vars(project).catch(console.error.bind(console));
 });
 
