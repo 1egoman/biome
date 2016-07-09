@@ -51,17 +51,6 @@ program
 });
 
 // ----------------------------------------------------------------------------
-// biome ls
-// list all environments
-// ----------------------------------------------------------------------------
-program
-.command('ls')
-.description("List all projects on this system.")
-.action(project => {
-  ls().catch(console.error.bind(console));
-});
-
-// ----------------------------------------------------------------------------
 // biome use [project]
 // Open a shell containing a project's variables
 // ----------------------------------------------------------------------------
@@ -83,4 +72,11 @@ program
   vars(project).catch(console.error.bind(console));
 });
 
-preflight().then(out => program.parse(process.argv));
+preflight().then(out => {
+  if (process.argv.length === 2) {
+    // list status if no args were specified
+    ls().catch(console.error.bind(console));
+  } else {
+    program.parse(process.argv)
+  }
+});

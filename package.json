@@ -6,6 +6,9 @@
   "scripts": {
     "test": "mocha"
   },
+  "bin": {
+    "biome": "biome"
+  },
   "keywords": [
     "env",
     "NODE_ENV",
