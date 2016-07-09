@@ -17,6 +17,6 @@ export function findVariablesFor(project) {
 export function getEnv(project) {
   return getProjectMetadata(project).then(meta => { // get local Biomefile
     console.log(`Found Biomefile for ${meta.name}...`);
-    return findVariablesFor(meta.name);
+    return Promise.all([findVariablesFor(meta.name), meta.name]);
   });
 }
