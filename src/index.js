@@ -68,7 +68,7 @@ program
 // ----------------------------------------------------------------------------
 program
 .command('edit [project]')
-.description("Open a shell with a project's associated variables included.")
+.description("Open $EDITOR with the project's associates environment variables.")
 .action(project => {
   edit(project).catch(console.error.bind(console));
 });
