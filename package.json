@@ -18,7 +18,8 @@
     "env",
     "var",
     "manage",
-    "env"
+    "env",
+    "cli"
   ],
   "author": "Ryan Gaus",
   "license": "ISC",
