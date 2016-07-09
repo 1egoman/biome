@@ -13,10 +13,10 @@ program.version(require("../package").version);
 // Creatw a new project
 // ----------------------------------------------------------------------------
 program
-.command('init <project>')
+.command('init [project]')
 .description("Create a new project with the specified name, and save an alias to this folder.")
 .action(project => {
-  init(project).then(out => {
+  init(project).then(project => {
     console.log(`Created new project ${project}. Add new vars with biome add or fire it up with biome use.`);
   }).catch(console.error.bind(console));
 });

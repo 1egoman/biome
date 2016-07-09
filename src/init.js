@@ -4,18 +4,48 @@ import path from 'path';
 
 import {biomeLocalName, biomeFolderName} from './constants';
 
-// given a 
+// try to find the local project name
+const lookFor = {
+  'package.json': contents => {
+    let data = JSON.parse(contents);
+    return data ? data.name : null;
+  },
+  'setup.py': contents => {
+    let name = contents.match(/name[ ]+=[ ]+['"](.+)['"]/);
+    return name ? name[1] : null;
+  },
+};
+function getProjectName() {
+  let findFirstMatch = [];
+  for (let key in lookFor) {
+    findFirstMatch.push(asyncCheck(key, lookFor[key]));
+  }
+
+  function asyncCheck(key, value) {
+    return fs.readFile(key).then(value);
+  }
+
+  return Promise.any(findFirstMatch);
+}
+
 export default function init(project) {
-  // step 1: write stuff to local Biomefile
-  let biomeFile = path.join(process.cwd(), biomeLocalName());
-  return fs.writeFile(
-    biomeFile,
-    JSON.stringify({
-      name: project,
-    }, null, 2)
-  ).then(file => {
-    // step 2: write creds file in the ~/.biome folder
-    let biomeProject = path.join(biomeFolderName(), `${project}.json`);
-    return fs.writeFile(biomeProject, "{}");
-  });
+  // step 0: determine project name
+  if (typeof project !== "string") {
+    return getProjectName().then(init);
+  } else if (project.trim().length === 0) {
+    console.error("No project name was specified or found. Please specify one manually.");
+  } else {
+    // step 1: write stuff to local Biomefile
+    let biomeFile = path.join(process.cwd(), biomeLocalName());
+    return fs.writeFile(
+      biomeFile,
+      JSON.stringify({
+        name: project,
+      }, null, 2)
+    ).then(file => {
+      // step 2: write creds file in the ~/.biome folder
+      let biomeProject = path.join(biomeFolderName(), `${project}.json`);
+      return fs.writeFile(biomeProject, "{}").then(f => project);
+    });
+  }
 }
