@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import program from 'commander';
 import preflight from './preflight';
+import chalk from 'chalk';
 
 import use, {vars} from './use';
 import add from './add';
@@ -19,7 +20,10 @@ program
 .description("Create a new project with the specified name, and save an alias to this folder.")
 .action(project => {
   init(project).then(project => {
-    console.log(`Created new project ${project}. Add new vars with biome add or fire it up with biome use.`);
+    console.log(`
+    Created new project ${project}. Add new vars with ${chalk.green("biome add")} or
+    fire it up with ${chalk.green("biome use")}.
+    `.replace('\n', ''));
   }).catch(console.error.bind(console));
 });
 
@@ -46,7 +50,7 @@ program
     // collect all matches
     let allMatches = args.map(arg => arg.split('='));
     add(project, allMatches).then(out => {
-      console.log(`Sourced all variables. Try biome use to try out what you just added.`);
+      console.log(`Sourced all variables. Try ${chalk.green("biome use")} to try out what you just added.`);
     }).catch(console.log.error.bind(console))
   }
 });
