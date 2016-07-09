@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import program from 'commander';
+import preflight from './preflight';
 
 import use from './use';
 import init from './init';
@@ -30,4 +31,4 @@ program
   use(project).catch(console.error.bind(console));
 });
 
-program.parse(process.argv);
+preflight().then(out => program.parse(process.argv));
