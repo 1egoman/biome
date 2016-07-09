@@ -2,7 +2,7 @@
 import program from 'commander';
 import preflight from './preflight';
 
-import use from './use';
+import use, {source} from './use';
 import add from './add';
 import init from './init';
 
@@ -73,6 +73,17 @@ program
 .description("Open a shell with a project's associated variables included.")
 .action(project => {
   use(project).catch(console.error.bind(console));
+});
+
+// ----------------------------------------------------------------------------
+// biome source [project]
+// source variables into the current shell - kinda
+// ----------------------------------------------------------------------------
+program
+.command('source [project]')
+.description("Open a shell with a project's associated variables included.")
+.action(project => {
+  source(project).catch(console.error.bind(console));
 });
 
 preflight().then(out => program.parse(process.argv));
