@@ -1,5 +1,4 @@
 import path from 'path';
-import home from 'user-home';
 import untildify from 'untildify';
 
 // The file that is in each individual project. Defaults to Biomefile.

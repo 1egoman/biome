@@ -4,7 +4,7 @@
   "description": "A simple way to manage environment variables on a per-project basis",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/"
   },
   "bin": {
     "biome": "biome"
