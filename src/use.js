@@ -14,7 +14,9 @@ export default function use(project) {
 
 // # run this after every cd
 // [[ -f /tmp/sourcefrombiome ]] && source /tmp/sourcefrombiome && rm /tmp/sourcefrombiome
-export function source(project) {
+
+// echo vars in shell format
+export function vars(project) {
   return getEnv(project).then(([vars, project]) => {
     // turn make all the variables into a string
     let shellVars = `
@@ -29,6 +31,6 @@ export BIOME_NVARS="${Object.keys(vars).length}"\n
     }
 
     // write to tmp
-    return fs.writeFile(path.join("/", "tmp", "sourcefrombiome"), shellVars);
+    console.log(shellVars)
   });
 }

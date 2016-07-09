@@ -2,7 +2,7 @@
 import program from 'commander';
 import preflight from './preflight';
 
-import use, {source} from './use';
+import use, {vars} from './use';
 import add from './add';
 import init from './init';
 
@@ -80,10 +80,10 @@ program
 // source variables into the current shell - kinda
 // ----------------------------------------------------------------------------
 program
-.command('source [project]')
-.description("Open a shell with a project's associated variables included.")
+.command('vars [project]')
+.description("Echo all variables.")
 .action(project => {
-  source(project).catch(console.error.bind(console));
+  vars(project).catch(console.error.bind(console));
 });
 
 preflight().then(out => program.parse(process.argv));
