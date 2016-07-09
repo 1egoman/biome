@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import program from 'commander';
 
-import {getEnv} from './manager';
+import use from './use';
 
 program.version('0.0.1');
 
@@ -11,7 +11,7 @@ program.version('0.0.1');
 program
 .command('use [project]')
 .action(project => {
-  getEnv().catch(console.error.bind(console));
+  use().catch(console.error.bind(console));
   // console.log(project)
 });
 
