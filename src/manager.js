@@ -3,7 +3,7 @@ import Promise from 'bluebird';
 import path from 'path';
 import home from 'user-home';
 
-import {biomeFolderName} from './contants';
+import {biomeFolderName} from './constants';
 import {getProjectMetadata} from './local';
 
 // get the project metadata (name) of the project in the cwd,
