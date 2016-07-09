@@ -1,5 +1,6 @@
 import path from 'path';
 import home from 'user-home';
+import untildify from 'untildify';
 
 // The file that is in each individual project. Defaults to Biomefile.
 export function biomeLocalName() {
@@ -8,6 +9,6 @@ export function biomeLocalName() {
 
 // The folder that contains all the individual configs. Defaults to ~/.biome
 export function biomeFolderName() {
-  return path.normalize(process.env.BIOME_FOLDER_NAME || '~/.biome');
+  return path.resolve(untildify(process.env.BIOME_FOLDER_NAME || '~/.biome'));
 }
 
