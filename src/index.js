@@ -27,7 +27,7 @@ program
 // ----------------------------------------------------------------------------
 program
 .command('add [project]')
-.description("Create a new project with the specified name, and save an alias to this folder.")
+.description("Add a variable to a project. Specify like NAME=value.")
 .action(project => {
   // if the first part was not a project, reset the variable
   if (project.indexOf('=') !== -1) { project = undefined; }
@@ -51,6 +51,17 @@ program
       console.log(`Sourced all variables. Try biome use to try out what you just added.`);
     }).catch(console.log.error.bind(console))
   }
+});
+
+// ----------------------------------------------------------------------------
+// biome ls
+// list all environments
+// ----------------------------------------------------------------------------
+program
+.command('ls')
+.description("List all projects on this system.")
+.action(project => {
+  console.log("TODO")
 });
 
 // ----------------------------------------------------------------------------

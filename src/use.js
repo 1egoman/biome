@@ -5,7 +5,7 @@ import path from 'path';
 import {getEnv} from './manager';
 import startShell from './startShell';
 
-// given a 
+// given a project, open a subshell with its associated variables
 export default function use(project) {
   return getEnv(project).then(([vars, project]) => {
     return startShell(project, vars);
