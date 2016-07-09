@@ -5,6 +5,7 @@ import preflight from './preflight';
 import use, {vars} from './use';
 import add from './add';
 import init from './init';
+import ls from './ls';
 
 program.version(require("../package").version);
 
@@ -57,7 +58,7 @@ program
 .command('ls')
 .description("List all projects on this system.")
 .action(project => {
-  console.log("TODO")
+  ls().catch(console.error.bind(console));
 });
 
 // ----------------------------------------------------------------------------
@@ -72,8 +73,8 @@ program
 });
 
 // ----------------------------------------------------------------------------
-// biome source [project]
-// source variables into the current shell - kinda
+// biome vars [project]
+// Echo all variables to stdout for a project.
 // ----------------------------------------------------------------------------
 program
 .command('vars [project]')
