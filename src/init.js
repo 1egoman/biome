@@ -1,6 +1,7 @@
 import fs from 'fs-promise';
 import Promise from 'bluebird';
 import path from 'path';
+import untildify from 'untildify';
 
 import {biomeLocalName, biomeFolderName} from './constants';
 
@@ -18,7 +19,8 @@ const lookFor = {
 function getProjectName() {
   let findFirstMatch = [];
   for (let key in lookFor) {
-    findFirstMatch.push(asyncCheck(key, lookFor[key]));
+    findFirstMatch.push(asyncCheck(path.join(process.cwd(), key), lookFor[key]));
+    console.log(path.join(process.cwd(), key))
   }
 
   function asyncCheck(key, value) {

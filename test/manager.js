@@ -2,7 +2,7 @@ import assert from 'assert';
 import mockFs from 'mock-fs';
 import fs from 'fs';
 import path from 'path';
-import {findVariablesFor} from '../src/manager';
+import {findVariablesFor, getEnv} from '../src/manager';
 import sinon from 'sinon';
 import untildify from 'untildify';
 
@@ -62,4 +62,25 @@ describe("findVariablesFor", function() {
 });
 
 describe("getEnv", function() {
+  beforeEach(function() {
+    process.env.BIOME_FOLDER_NAME = "~/.biome";
+    process.env.BIOME_LOCAL_NAME = "Biomefile";
+    mockCleanSlate({HELLO: "world"}, {
+      "another.json": JSON.stringify({FOO: "bar"})
+    });
+  });
+  afterEach(function() {
+    mockFs.restore();
+  });
+
+  it("should get all environment vars for a given project", function() {
+    getEnv("another").then(all => {
+      assert.deepEqual(all, [{FOO: "bar"}, "another"]);
+    });
+  });
+  it("should get all environment vars for an unspecified project", function() {
+    getEnv().then(all => {
+      assert.deepEqual(all, [{HELLO: "world", FOO: "bar"}, "project"]);
+    });
+  });
 });
