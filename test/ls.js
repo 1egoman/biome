@@ -21,8 +21,9 @@ describe("ls", function() {
     delete process.env.BIOME_PROJECT;
     return ls().then(out => {
       assert.deepEqual(console.info.args, [
-        [ '(use `biome init [project]` to create a new project)' ],
-        [ '(use `biome use <name>` to activate)' ],
+        [`(for help, run ${chalk.green("biome --help")})`],
+        [`(use ${chalk.green("biome init [project]")} to create a new project)`],
+        [`(use ${chalk.green("biome use <name>")} to activate)`],
         [ 'All biomes:' ],
         [ ' ', 'foo' ],
         [ ' ', 'bar' ],
@@ -34,8 +35,9 @@ describe("ls", function() {
     process.env.BIOME_PROJECT = "foo";
     return ls().then(out => {
       assert.deepEqual(console.info.args, [
-        [ '(use `biome init [project]` to create a new project)' ],
-        [ '(use `biome use <name>` to activate)' ],
+        [`(for help, run ${chalk.green("biome --help")})`],
+        [`(use ${chalk.green("biome init [project]")} to create a new project)`],
+        [`(use ${chalk.green("biome use <name>")} to activate)`],
         [ 'All biomes:' ],
         [ chalk.red('*'), 'foo' ],
         [ ' ', 'bar' ],
