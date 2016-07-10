@@ -26,11 +26,22 @@ export BIOME_PROJECT="${project}"
 export BIOME_NVARS="${Object.keys(vars).length}"\n
 # Project variables
 `.trim() + '\n';
+
+    // set each one
     for (let variable in vars) {
       shellVars += `export ${variable}="${vars[variable]}"\n`;
     }
 
+    // add an unset function
+    if (Object.keys(vars).length > 0) {
+      shellVars += "function envoff {\n";
+      for (let variable in vars) {
+        shellVars += `  unset ${variable}\n`;
+      }
+      shellVars += "}";
+    }
+
     // write to tmp
-    console.log(shellVars)
+    return shellVars;
   });
 }
