@@ -1,6 +1,8 @@
 # Biome
 A small script to manage a project's environment variables.
 
+[![CircleCI](https://circleci.com/gh/1egoman/biome.svg?style=svg&circle-token=5cd1a8690f148661881840c868009db16f10370f)](https://circleci.com/gh/1egoman/biome)
+
 - `biome init`
   Creates a new project and links it with the project in the current directory.
 - `biome add`
