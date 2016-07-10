@@ -3,9 +3,6 @@
 [![CircleCI](https://circleci.com/gh/1egoman/biome.svg?style=svg&circle-token=5cd1a8690f148661881840c868009db16f10370f)](https://circleci.com/gh/1egoman/biome)
 
 Manage environment variables in a sane way. Never push up secrets again!
-
-Features
-===
 - Enforces a clear separation of secrets and code.
 - All secrets are in one configurable place. (by default, `~/.biome`)
 - Associate any number of variables with any number of projects.
