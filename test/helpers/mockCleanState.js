@@ -3,12 +3,14 @@ import path from 'path';
 import mockFs from 'mock-fs';
 import untildify from 'untildify';
 
-export default function mockCleanSlate() {
+// Mock biomefile and .biome folder
+export default function mockCleanSlate(variables={}, more={}) {
   let home = untildify('~/');
   return mockFs({
     [home]: {
       '.biome': {
-        'project.json': '{}',
+        'project.json': JSON.stringify(variables),
+        ...more,
       },
     },
     [process.cwd()]: {
@@ -17,12 +19,14 @@ export default function mockCleanSlate() {
   }, {createCwd: false});
 }
 
-export function mockEmptyState() {
+// no files
+export function mockEmptyState(inCwd={}, inHome={}) {
   let home = untildify('~/');
   return mockFs({
     [home]: {
       '.biome': {},
+      ...inHome,
     },
-    [process.cwd()]: {},
+    [process.cwd()]: {...inCwd},
   }, {createCwd: false});
 }
