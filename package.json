@@ -39,6 +39,8 @@
     "babel-cli": "^6.10.1",
     "babel-preset-es2017": "^1.4.0",
     "babel-register": "^6.9.0",
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "mock-fs": "^3.11.0",
+    "sinon": "^1.17.4"
   }
 }
