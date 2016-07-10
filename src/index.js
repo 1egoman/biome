@@ -86,7 +86,7 @@ program
   if (options.find(i => i.long === '--only-vars')) {
     console.info = function() {};
   }
-  vars(project).catch(console.error.bind(console));
+  vars(project).then(console.log.bind(console)).catch(console.error.bind(console));
 });
 
 preflight().then(out => {

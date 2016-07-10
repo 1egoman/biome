@@ -4,3 +4,4 @@ defaults.sh
 .DS_Store
 *.swo
 *.swp
+coverage/

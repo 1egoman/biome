@@ -4,7 +4,8 @@
   "description": "A simple way to manage environment variables on a per-project basis",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha test/"
+    "test": "mocha test/",
+    "coverage": "babel-node node_modules/.bin/babel-istanbul cover _mocha"
   },
   "bin": {
     "biome": "biome"
@@ -37,10 +38,12 @@
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
+    "babel-istanbul": "^0.11.0",
     "babel-preset-es2017": "^1.4.0",
     "babel-register": "^6.9.0",
     "mocha": "^2.5.3",
     "mock-fs": "^3.11.0",
-    "sinon": "^1.17.4"
+    "sinon": "^1.17.4",
+    "sinon-as-promised": "^3.0.1"
   }
 }
