@@ -1,7 +1,6 @@
 ![Biome: a small script to manage a user's environment variables](https://raw.githubusercontent.com/1egoman/biome/master/resources/hero.png)
 
 [![CircleCI](https://circleci.com/gh/1egoman/biome.svg?style=svg&circle-token=5cd1a8690f148661881840c868009db16f10370f)](https://circleci.com/gh/1egoman/biome)
-
 [![npm version](https://img.shields.io/npm/v/biome.svg)](https://npmjs.com/package/biome)
 
 Manage environment variables in a sane way. Never push up secrets again!
