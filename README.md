@@ -77,3 +77,7 @@ Configuration
 - Want to include other environments into a project? Within the project's environment, add the
   special key `$include` mapping to an array of envornments. For example, `"$include": ["another",
   "environment", "here"]`.
+
+
+----------
+Created by [Ryan Gaus](http://rgaus.net)
