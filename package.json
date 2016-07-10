@@ -5,10 +5,11 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha test/",
-    "coverage": "babel-node node_modules/.bin/babel-istanbul cover _mocha"
+    "coverage": "babel-node node_modules/.bin/babel-istanbul cover _mocha",
+    "prepublish": "babel src/ -d dist/"
   },
   "bin": {
-    "biome": "biome"
+    "biome": "./dist/index.js"
   },
   "keywords": [
     "env",

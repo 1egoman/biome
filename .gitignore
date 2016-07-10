@@ -5,3 +5,4 @@ defaults.sh
 *.swo
 *.swp
 coverage/
+dist/
