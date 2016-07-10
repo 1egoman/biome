@@ -16,3 +16,13 @@ export default function mockCleanSlate() {
     },
   }, {createCwd: false});
 }
+
+export function mockEmptyState() {
+  let home = untildify('~/');
+  return mockFs({
+    [home]: {
+      '.biome': {},
+    },
+    [process.cwd()]: {},
+  }, {createCwd: false});
+}
