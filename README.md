@@ -77,6 +77,21 @@ Configuration
 - Want to include other environments into a project? Within the project's environment, add the
   special key `$include` mapping to an array of envornments. For example, `"$include": ["another",
   "environment", "here"]`.
+- Easily give new users a simple way to enter values. Within the `Biomefile`, define a property
+  called `template`. Each key of `template` should be the variable name, while each value should be
+  its default value. For example:
+```json
+{
+  "name": "my-project",
+  "template": {
+    "KEY": "value"
+  }
+}
+```
+  Then, when the user runs `biome init`, they'll be prompted for the values specified. Above, they'd
+  be prompted for `KEY`, and given a default choice of "value".
+- Don't want to hardcode templates into a project? As an argument to `biome init`, specify a
+  template url after the project name, like `biome init project http://example.com/template.json`.
 
 
 ----------
