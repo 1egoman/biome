@@ -1,6 +1,6 @@
 {
   "name": "biome",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A simple way to manage environment variables on a per-project basis",
   "main": "src/index.js",
   "scripts": {
