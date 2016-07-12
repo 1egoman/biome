@@ -41,8 +41,8 @@ _commander2.default.version(require("../package").version);
 // biome init <project>
 // Create a new project
 // ----------------------------------------------------------------------------
-_commander2.default.command('init [project]').description("Create a new project with the specified name, and save an alias to this folder.").action(project => {
-  (0, _init2.default)(project).then(project => {
+_commander2.default.command('init [project] [template]').description(`Create a new project with the specified name, and save an alias to this folder.`).action((project, template) => {
+  (0, _init2.default)(project, template).then(project => {
     console.log(`Created new project ${ project }. Add new vars with ${ _chalk2.default.green("biome add") } or fire it up with ${ _chalk2.default.green("biome use") }.`.replace('\n', ''));
   }).catch(console.error.bind(console));
 });
