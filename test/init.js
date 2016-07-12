@@ -39,10 +39,6 @@ describe("Init", function() {
     afterEach(function() {
       console.error.restore();
     });
-    it("should error on empty project name", function() {
-      init("");
-      assert(console.error.calledOnce);
-    });
   });
 });
 

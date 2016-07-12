@@ -86,7 +86,7 @@ _commander2.default.command('use [project]').description("Open a shell with a pr
 // biome edit [project]
 // Open $EDITOR with the project's global json.
 // ----------------------------------------------------------------------------
-_commander2.default.command('edit [project]').description("Open $EDITOR with the project's associated environment variables.").action(project => {
+_commander2.default.command('edit <project>').description("Open $EDITOR with the project's associated environment variables.").action(project => {
   (0, _edit2.default)(project).catch(console.error.bind(console));
 });
 
