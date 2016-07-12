@@ -17,7 +17,7 @@ program.version(require("../package").version);
 // ----------------------------------------------------------------------------
 program
 .command('init [project] [template]')
-.description(`Create a new project with the specified name, and save an alias to this folder.`)
+.description(`Create a new project with the specified name, and save an alias to this folder. If project is omitted, try to rehydrate a preexisting environment from a Biomefile.`)
 .action((project, template) => {
   init(project, template).then(project => {
     console.log(`Created new project ${project}. Add new vars with ${chalk.green("biome add")} or fire it up with ${chalk.green("biome use")}.`.replace('\n', ''));

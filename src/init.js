@@ -35,7 +35,7 @@ export default function init(project, template) {
   }).then(biomefile => {
     project = biomefile.name || project;
 
-    if (project.length === 0) {
+    if (!project || project.length === 0) {
       console.error("Project names need to be at least 1 character long.");
       throw new Error("Project names need to be at least 1 character long.");
     }

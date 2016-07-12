@@ -63,7 +63,7 @@ function init(project, template) {
   return _fsPromise2.default.readJSON(biomeFile).catch(error => {
     return {}; // No biomefile
   }).then(biomefile => {
-    project = biomefile.project || project;
+    project = biomefile.name || project;
 
     if (project.length === 0) {
       console.error("Project names need to be at least 1 character long.");
