@@ -67,24 +67,22 @@ edit)
   fi
   ;;
 
-# TODO: read through a template from the Biomefile and ask for variables
 install)
   get_project $2
-  echo $PROJECT_PATH
-  touch $HOME/.biome/$PROJECT.sh
-  cat $HOME/.biome/$PROJECT.sh
   while read -u 10 i; do
     # get the valu
     VARIABLE_NAME=$(echo $i | sed 's/=.*//')
     VARIABLE_DEFAULT_VALUE=$(echo $i | cut -f2- -d'=')
-    read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
+    if [[ "$VARIABLE_NAME" != "name" ]]; then
+      read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
 
-    # replace the value with the default
-    if [[ "$VARIABLE_VALUE" == "" ]]; then
-      VARIABLE_VALUE=$VARIABLE_DEFAULT_VALUE
+      # replace the value with the default
+      if [[ "$VARIABLE_VALUE" == "" ]]; then
+        VARIABLE_VALUE=$VARIABLE_DEFAULT_VALUE
+      fi
+
+      echo export $VARIABLE_NAME=\"$VARIABLE_VALUE\" >> $HOME/.biome/$PROJECT.sh
     fi
-
-    echo export $VARIABLE_NAME=\"$VARIABLE_VALUE\" >> $HOME/.biome/$PROJECT.sh
   done 10< Biomefile
   ;;
 
