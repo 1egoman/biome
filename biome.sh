@@ -67,6 +67,7 @@ edit)
   fi
   ;;
 
+# Install all variables into hte global project config
 install)
   get_project $2
   while read -u 10 i; do
@@ -87,7 +88,7 @@ install)
   echo "Great! To use these variables, run biome use $PROJECT"
   ;;
 
-# biome init abc
+# Create a new local Biomefile and associated template
 init)
   if [[ ! -f "Biomefile" ]]; then
     read -p "Name of project? " PROJECT
