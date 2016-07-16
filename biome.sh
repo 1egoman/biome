@@ -84,6 +84,7 @@ install)
       echo export $VARIABLE_NAME=\"$VARIABLE_VALUE\" >> $HOME/.biome/$PROJECT.sh
     fi
   done 10< Biomefile
+  echo "Great! To use these variables, run biome use $PROJECT"
   ;;
 
 # biome init abc
@@ -112,12 +113,25 @@ init)
 # add variables like export FOO="bar"
 # include other variables with source /path/to/more/vars
 EOF
+  echo "You're on your way! To set up the passed variables, run biome install."
 
     fi
+  else
+    echo "Error: Biomefile exists. To re-init, remove the local Biomefile and try again."
+    exit 1
   fi
   ;;
 
+help)
+  echo "Commands:"
+  echo "  biome init <project> - Create a new project in the current directory."
+  echo "  biome install - Prompt for any template variables and add them to the ~/.biome/project.sh file."
+  echo "  biome edit [project] - Edit the current or the specified project."
+  echo "  biome use [project] - Spawn a subshell containing a project's variables."
+  echo "(A good place to start is biome init project)."
+  ;;
+
 *)
-  echo "No such command. Please run biome --help for help."
+  echo "No such command. Please run biome help for help."
   ;;
 esac
