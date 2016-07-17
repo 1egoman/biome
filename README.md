@@ -1,14 +1,39 @@
 ![Biome: a small script to manage a user's environment variables](https://raw.githubusercontent.com/1egoman/biome/master/resources/hero.png)
 
-[![CircleCI](https://circleci.com/gh/1egoman/biome.svg?style=svg&circle-token=5cd1a8690f148661881840c868009db16f10370f)](https://circleci.com/gh/1egoman/biome)
-[![npm version](https://img.shields.io/npm/v/biome.svg)](https://npmjs.com/package/biome)
-[![Licence](https://img.shields.io/npm/l/biome.svg)](http://spdx.org/licenses/ISC)
+Biome is a simple way to manage your app's environment--all the flags and secrets that vary between deployments.
 
-Manage environment variables in a sane way. Never push up secrets again!
-- Enforces a clear separation of secrets and code.
-- All secrets are in one configurable place. (by default, `~/.biome`)
-- Associate any number of variables with any number of projects.
-- Easily create complex variable structures that inherit from one-another.
+Biome stores the makeup of your app's environment, so when a new user or contributor wants to run
+your app, Biome prompts them for all required secrets. 
+
+Biome stores all your secrets in one place, away from version control. Environment details never
+leave your local system.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![Licence](https://img.shields.io/npm/l/biome.svg)](http://spdx.org/licenses/ISC)
 
 ## Installation
 ```bash

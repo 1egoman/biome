@@ -51,6 +51,27 @@ cat <<EOF > ~/.biome/$PROJECT.sh
 EOF
 }
 
+# Get all defined variables in the Biomefile, and ask the user for their values. Stick these in
+# ~/.biome/$PROJECT.sh
+function fetch_var_values {
+  while read -u 10 i; do
+    # get the value
+    VARIABLE_NAME=$(echo $i | sed 's/=.*//')
+    VARIABLE_DEFAULT_VALUE=$(echo $i | cut -f2- -d'=')
+    if [[ "$VARIABLE_NAME" != "name" ]]; then
+      read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
+
+      # replace the value with the default
+      if [[ "$VARIABLE_VALUE" == "" ]]; then
+        VARIABLE_VALUE=$VARIABLE_DEFAULT_VALUE
+      fi
+
+      echo export $VARIABLE_NAME=\"$VARIABLE_VALUE\" >> $HOME/.biome/$PROJECT.sh
+    fi
+  done 10< Biomefile
+}
+
+
 # all the different subcommands
 case $1 in
 
@@ -78,21 +99,7 @@ edit)
 # Install all variables into hte global project config
 install)
   get_project $2
-  while read -u 10 i; do
-    # get the valu
-    VARIABLE_NAME=$(echo $i | sed 's/=.*//')
-    VARIABLE_DEFAULT_VALUE=$(echo $i | cut -f2- -d'=')
-    if [[ "$VARIABLE_NAME" != "name" ]]; then
-      read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
-
-      # replace the value with the default
-      if [[ "$VARIABLE_VALUE" == "" ]]; then
-        VARIABLE_VALUE=$VARIABLE_DEFAULT_VALUE
-      fi
-
-      echo export $VARIABLE_NAME=\"$VARIABLE_VALUE\" >> $HOME/.biome/$PROJECT.sh
-    fi
-  done 10< Biomefile
+  fetch_var_values
   echo "Great! To use these variables, run biome use $PROJECT"
   ;;
 
@@ -117,8 +124,15 @@ init)
 
       # create a new project
       make_template_project
-      echo "You're on your way! To set up the passed variables, run biome install."
+      echo
+      fetch_var_values
 
+      # make a commit with git
+      if [[ $(which git) ]]; then
+        git add Biomefile
+        git commit -m "code: Added Biomefile to project"
+      fi
+      echo "Nice! To use this environment, run biome use!"
     fi
   else
     echo "Error: Biomefile exists. To re-init, remove the local Biomefile and try again."
