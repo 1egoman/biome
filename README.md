@@ -17,7 +17,7 @@ curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/loca
 ## Getting Started
 Within your project, run `biome init <project name>` to configure your project's environment.
 
-```bash
+```
 bob@desktop /project $ biome init
 Name of project? project
 Enter a variable name you'd like to add. FOO
@@ -38,7 +38,7 @@ Value for FOO? () 456
 Value for BAR? (baz) something else
 ```
 Once it's time to start the app, either user can spawn a new environment with `biome use`.
-```bash
+```
 /project $ biome use
 Sourcing project from ~/.biome/project.sh
 /project $ echo $BIOME_PROJECT
@@ -47,23 +47,21 @@ project
 ```
 
 ## FAQ
-- How do I change an environment later on?
+- **How do I change an environment later on?** `biome edit [project name]`.
 
-`biome edit [project name]`.
-
-- What's the difference between `biome use` and `biome use [project name]`?
-
+- **What's the difference between `biome use` and `biome use [project name]`?**
 Omitting a project name tells Biome to look in the current directory for a Biomefile. If found,
 the specified name will be used in place of the passed project name.
 
-- Do I have to install Biome globally?
-
+- **Do I have to install Biome globally?**
 No. Some choose to install Biome locally (in the root of the project), which makes the process of
 contributing easier for others.
 
-- I'm having problems. Help me!
-
+- **I'm having problems. Help me!**
 If you can't figure out a problem on your own, leave an issue and I'll take a look.
+
+- **I want to contribute.**
+Great! Pull requests are always welcome.
 
 ----------
 Created by [Ryan Gaus](http://rgaus.net)
