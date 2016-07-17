@@ -1,7 +1,6 @@
-![Biome: a small script to manage a user's environment variables](https://raw.githubusercontent.com/1egoman/biome/master/resources/hero.png)
+![Biome Logo](https://raw.githubusercontent.com/1egoman/biome/master/resources/logo.png)
 
-Biome is a simple way to manage your app's environment--all the flags and secrets that vary between deployments.
-
+# Biome is a simple way to manage your app's environment.
 Biome stores the makeup of your app's environment, so when a new user or contributor wants to run
 your app, Biome prompts them for all required secrets. 
 
