@@ -42,6 +42,14 @@ function get_variable {
     read -p "Enter a default value, or leave empty for none. " VAR_DEFAULT
   fi
 }
+function make_template_project {
+cat <<EOF > ~/.biome/$PROJECT.sh
+# A file that contains environment variables for a project
+# Activate me with biome use $PROJECT
+# add variables like export FOO="bar"
+# include other variables with source /path/to/more/vars
+EOF
+}
 
 # all the different subcommands
 case $1 in
@@ -108,13 +116,8 @@ init)
       done
 
       # create a new project
-      cat <<EOF > ~/.biome/$PROJECT.sh
-# A file that contains environment variables for a project
-# Activate me with biome use $PROJECT
-# add variables like export FOO="bar"
-# include other variables with source /path/to/more/vars
-EOF
-  echo "You're on your way! To set up the passed variables, run biome install."
+      make_template_project
+      echo "You're on your way! To set up the passed variables, run biome install."
 
     fi
   else
