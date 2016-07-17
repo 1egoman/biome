@@ -5,7 +5,7 @@ Biome is a simple way to manage your app's environment--all the flags and secret
 Biome stores the makeup of your app's environment, so when a new user or contributor wants to run
 your app, Biome prompts them for all required secrets. 
 
-Biome stores all your secrets in one place, away from version control. Environment details never
+Biome saves all your secrets in one place, away from version control. Environment details never
 leave your local system.
 
 ## Install
@@ -48,17 +48,21 @@ project
 
 ## FAQ
 - How do I change an environment later on?
+
 `biome edit [project name]`.
 
 - What's the difference between `biome use` and `biome use [project name]`?
+
 Omitting a project name tells Biome to look in the current directory for a Biomefile. If found,
 the specified name will be used in place of the passed project name.
 
 - Do I have to install Biome globally?
+
 No. Some choose to install Biome locally (in the root of the project), which makes the process of
 contributing easier for others.
 
 - I'm having problems. Help me!
+
 If you can't figure out a problem on your own, leave an issue and I'll take a look.
 
 ----------
