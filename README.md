@@ -8,116 +8,58 @@ your app, Biome prompts them for all required secrets.
 Biome stores all your secrets in one place, away from version control. Environment details never
 leave your local system.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-[![Licence](https://img.shields.io/npm/l/biome.svg)](http://spdx.org/licenses/ISC)
-
-## Installation
+## Install
+Biome is written in bash, and can be installed with:
 ```bash
-npm install -g biome
+curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/local/bin/biome
 ```
 
-## Usage
+## Getting Started
+Within your project, run `biome init <project name>` to configure your project's environment.
+
 ```bash
-$ biome --help
-  Usage: biome [options] [command]
+bob@desktop /project $ biome init
+Name of project? project
+Enter a variable name you'd like to add. FOO
+Enter a default value, or leave empty for none. 
+Enter a variable name you'd like to add. BAR
+Enter a default value, or leave empty for none. baz
+Enter a variable name you'd like to add. 
 
-  Commands:
-
-    init [project]            Create a new project with the specified name, and save an alias to this folder.
-    add [project]             Add a variable to a project. Specify like NAME=value.
-    use [project]             Open a shell with a project's associated variables included.
-    edit [project]            Open $EDITOR with the project's associated environment variables.
-    vars [options] [project]  Echo all variables.
-
-  Options:
-    -h, --help     output usage information
-    -V, --version  output the version number
-
-  Examples:
-
-  $ biome init project
-  $ biome add project FOO=bar BAZ="I'm a teapot"
-  $ biome use project
+Value for FOO? () 123
+Value for BAR? (baz) 
+Nice! To use this environment, run biome use!
 ```
 
-## Workflow
-To set up an environment, first run `biome init project` to set up a new environment called
-`project`. Then, to add new variables to an environment, run `biome add project KEY=value`. To
-perform more complicated configurations, edit the environment directly with `biome edit project`.
-
-Once you'd like to use the environment, run `biome use project`. A new instance of `$SHELL` will be
-spawned containing all the configured variables, plus a few Biome-specific ones. To view your
-current environment, type `biome`.
-
-## How it works:
-For each project, biome creates 2 files: a local `Biomefile` and a global `project.json`.
+Later on, another user can run `biome` in the project's root to setup a new environment.
 ```
-// Biomefile
-{
-  "name": "project"
-}
-// project.json
-{
-  "VARIABLE": "value"
-}
+janice@laptop /project $ biome
+Value for FOO? () 456
+Value for BAR? (baz) something else
 ```
-The local `Biomefile` can be committed to source control because it just contains a reference to the
-global project. The `project.json` is stored in `~/.biome/project.json`, where `project` is replaced
-with the identifier in the `Biomefile`. This file is where the environment variables themselves are
-actually stored. Since each user can have a separate `project.json` for each system, everyone can
-customize their config to suit their needs.
-
-Configuration
----
-- `BIOME_LOCAL_NAME`: The name of the file in the project that references an environment. Defaults
-  to `Biomefile`.
-- `BIOME_FOLDER_NAME`: The name of the folder that biome stores all secrets within. Defaults to
-  `~/.biome`.
-
-### Tips and Tricks
-- Want to include other environments into a project? Within the project's environment, add the
-  special key `$include` mapping to an array of envornments. For example, `"$include": ["another",
-  "environment", "here"]`.
-- Easily give new users a simple way to enter values. Within the `Biomefile`, define a property
-  called `template`. Each key of `template` should be the variable name, while each value should be
-  its default value. For example:
-```json
-{
-  "name": "my-project",
-  "template": {
-    "KEY": "value"
-  }
-}
+Once it's time to start the app, either user can spawn a new environment with `biome use`.
+```bash
+/project $ biome use
+Sourcing project from ~/.biome/project.sh
+/project $ echo $BIOME_PROJECT
+project
+/project $
 ```
-  Then, when the user runs `biome init`, they'll be prompted for the values specified. Above, they'd
-  be prompted for `KEY`, and given a default choice of "value".
-- Don't want to hardcode templates into a project? As an argument to `biome init`, specify a
-  template url after the project name, like `biome init project http://example.com/template.json`.
 
+## FAQ
+- How do I change an environment later on?
+`biome edit [project name]`.
+
+- What's the difference between `biome use` and `biome use [project name]`?
+Omitting a project name tells Biome to look in the current directory for a Biomefile. If found,
+the specified name will be used in place of the passed project name.
+
+- Do I have to install Biome globally?
+No. Some choose to install Biome locally (in the root of the project), which makes the process of
+contributing easier for others.
+
+- I'm having problems. Help me!
+If you can't figure out a problem on your own, leave an issue and I'll take a look.
 
 ----------
 Created by [Ryan Gaus](http://rgaus.net)
