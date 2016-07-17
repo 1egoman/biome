@@ -1,4 +1,4 @@
-![Biome Logo](https://raw.githubusercontent.com/1egoman/biome/master/resources/logo.png)
+<img src="https://raw.githubusercontent.com/1egoman/biome/master/resources/logo.png" style="width: 300px;" />
 
 # Biome is a simple way to manage your app's environment.
 Biome stores the makeup of your app's environment, so when a new user or contributor wants to run
