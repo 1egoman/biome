@@ -14,14 +14,7 @@ curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/loca
 ```
 
 ## Getting Started
-Within your project, run `biome init <project name>` to configure your project's environment.
-![biome init demo](https://raw.githubusercontent.com/1egoman/biome/master/resources/biome init.png)
-
-Later on, another user can run `biome` in the project's root to setup a new environment.
-![biome install demo](https://raw.githubusercontent.com/1egoman/biome/master/resources/biome install.png)
-
-Once it's time to start the app, either user can spawn a new environment with `biome use`.
-![biome use demo](https://raw.githubusercontent.com/1egoman/biome/master/resources/biome use.png)
+![Biome: Getting Started](https://raw.githubusercontent.com/1egoman/biome/master/resources/Getting Started.png)
 
 ## FAQ
 - **How do I change an environment later on?** `biome edit [project name]`.
