@@ -14,6 +14,7 @@ Biome is written in bash, and can be installed by running:
 ```bash
 curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/local/bin/biome
 ```
+For help, run `biome help`.
 
 ## Usage
 ![Biome: Getting Started](https://raw.githubusercontent.com/1egoman/biome/master/resources/Getting Started.png)
