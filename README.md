@@ -1,19 +1,21 @@
 <img src="https://raw.githubusercontent.com/1egoman/biome/master/resources/logo.png" style="width: 300px;" />
 
-# Biome is a simple way to manage your app's environment.
+# Biome
+A shell script to manage your app's environment.
+<!--
 Biome stores the makeup of your app's environment, so when a new user or contributor wants to run
 your app, Biome prompts them for all required secrets. 
 
 Biome saves all your secrets in one place, away from version control. Environment details never
 leave your local system.
-
+-->
 ## Install
-Biome is written in bash, and can be installed with:
+Biome is written in bash, and can be installed by running:
 ```bash
 curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/local/bin/biome
 ```
 
-## Getting Started
+## Usage
 ![Biome: Getting Started](https://raw.githubusercontent.com/1egoman/biome/master/resources/Getting Started.png)
 
 ## FAQ
