@@ -75,7 +75,7 @@ function fetch_var_values {
 }
 
 # if ~/.biome doesn't exist, make it
-if [[ ! -f "$HOME/.biome" ]]; then
+if [[ ! -d "$HOME/.biome" ]]; then
   mkdir $HOME/.biome
 fi
 
