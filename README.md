@@ -12,7 +12,7 @@ leave your local system.
 ## Install
 Biome is written in bash, and can be installed by running:
 ```bash
-curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/local/bin/biome
+curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/local/bin/biome && sudo chmod +x /usr/local/bin/biome
 ```
 For help, run `biome help`.
 
