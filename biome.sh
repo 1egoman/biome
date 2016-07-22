@@ -1,9 +1,6 @@
 #!/bin/bash
-
-# I want to create one:
-# $ biome init
-
-# biome init project
+# Biome is a script that manages an isolated shell environment for a project.
+# Written by Ryan Gaus
 
 function get_project {
   PASSED_PROJECT=$1

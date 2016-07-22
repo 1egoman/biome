@@ -26,6 +26,11 @@ For help, run `biome help`.
 Omitting a project name tells Biome to look in the current directory for a Biomefile. If found,
 the specified name will be used in place of the passed project name.
 
+- **Is there an easy way to tell which environment I'm in within a shell created by biome use?**
+Biome sets a few additional environment variables (see all with `env | grep BIOME`), one of
+them being `BIOME_PROJECT`. This contains the name of the current project that has been loaded from
+the environment.
+
 - **Do I have to install Biome globally?**
 No. Some choose to install Biome locally (in the root of the project), which makes the process of
 contributing easier for others.
