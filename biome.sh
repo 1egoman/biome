@@ -74,6 +74,10 @@ function fetch_var_values {
   fi
 }
 
+# if ~/.biome doesn't exist, make it
+if [[ ! -f "$HOME/.biome" ]]; then
+  mkdir $HOME/.biome
+fi
 
 # all the different subcommands
 case $1 in
@@ -85,7 +89,7 @@ use)
 
   # Spawn a new shell
   set_meta_vars
-  bash -c "$(cat $PROJECT_PATH) && bash"
+  bash -c "$(cat $PROJECT_PATH) && bash -l"
   unset_meta_vars
   ;;
 
