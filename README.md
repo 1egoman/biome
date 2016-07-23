@@ -2,13 +2,12 @@
 
 # Biome
 A shell script to manage your app's environment.
-<!--
-Biome stores the makeup of your app's environment, so when a new user or contributor wants to run
-your app, Biome prompts them for all required secrets. 
 
-Biome saves all your secrets in one place, away from version control. Environment details never
-leave your local system.
--->
+Biome stores the makeup of your app's environment, so when a new user or contributor wants to run
+your app, Biome prompts them for all required secrets. For contributors, it means a 1-command to set
+up the environment, and for authors of a package it means less work trying to fix issues due to a
+misconfigured environment.
+
 ## Install
 Biome is written in bash, and can be installed by running:
 ```bash
