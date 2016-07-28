@@ -53,18 +53,20 @@ EOF
 function fetch_var_values {
   if [[ -f "Biomefile" ]]; then
     while read -u 10 i; do
-      # get the value
-      VARIABLE_NAME=$(echo $i | sed 's/=.*//')
-      VARIABLE_DEFAULT_VALUE=$(echo $i | cut -f2- -d'=')
-      if [[ "$VARIABLE_NAME" != "name" ]]; then
-        read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
+      if [[ ! "$i" =~ ^# ]]; then # not a comment
+        # get the value
+        VARIABLE_NAME=$(echo $i | sed 's/=.*//')
+        VARIABLE_DEFAULT_VALUE=$(echo $i | cut -f2- -d'=')
+        if [[ "$VARIABLE_NAME" != "name" ]]; then
+          read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
 
-        # replace the value with the default
-        if [[ "$VARIABLE_VALUE" == "" ]]; then
-          VARIABLE_VALUE=$VARIABLE_DEFAULT_VALUE
+          # replace the value with the default
+          if [[ "$VARIABLE_VALUE" == "" ]]; then
+            VARIABLE_VALUE=$VARIABLE_DEFAULT_VALUE
+          fi
+
+          echo export $VARIABLE_NAME=\"$VARIABLE_VALUE\" >> $HOME/.biome/$PROJECT.sh
         fi
-
-        echo export $VARIABLE_NAME=\"$VARIABLE_VALUE\" >> $HOME/.biome/$PROJECT.sh
       fi
     done 10< Biomefile
   else
