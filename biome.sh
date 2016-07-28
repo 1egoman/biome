@@ -115,7 +115,9 @@ init)
       # when it already exists...
       echo "This project already exists. If you'd like to overwrite it, run rm ~/.biome/$PROJECT.sh then run this again."
     else
-      echo "name=$PROJECT" > Biomefile
+      echo "# This is a Biomefile. It helps you create an environment to run this app." > Biomefile
+      echo "# More info at https://github.com/1egoman/biome" >> Biomefile
+      echo "name=$PROJECT" >> Biomefile
 
       # get variables
       get_variable
@@ -127,6 +129,7 @@ init)
       # create a new project
       make_template_project
       echo
+      echo "Ok, let's set up your local environment."
       fetch_var_values
 
       # make a commit with git
