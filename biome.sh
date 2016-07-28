@@ -91,7 +91,7 @@ use)
 
   # Spawn a new shell
   set_meta_vars
-  bash -c "$(cat $PROJECT_PATH) && bash -l"
+  bash -c "$(cat $PROJECT_PATH) && $SHELL -l"
   unset_meta_vars
   ;;
 
