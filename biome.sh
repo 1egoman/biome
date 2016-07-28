@@ -83,6 +83,12 @@ fi
 
 # all the different subcommands
 case $1 in
+# Install all variables into the global project config
+'')
+  get_project $2
+  fetch_var_values
+  echo "Great! To use these variables, run biome use $PROJECT"
+  ;;
 
 # given a project, source it into the current shell
 use)
@@ -154,19 +160,23 @@ rm)
   ;;
 
 help)
+  echo "Usage: biome COMMAND [project]"
+  echo
   echo "Commands:"
   echo "  biome init <project> - Create a new project in the current directory."
   echo "  biome edit [project] - Edit the current or the specified project."
   echo "  biome use [project] - Spawn a subshell containing a project's variables."
   echo "  biome rm [project] - Delete a project's environment so it can be reconfigured."
   echo "  biome - Prompt for any template variables and add them to the ~/.biome/project.sh file."
-  echo "(A good place to start is biome init project)."
+  echo
+  echo "Set up a new project:"
+  echo "  - Run biome init to create a new Biomefile to be used as template for setting up your envionment in the future."
+  echo "  - Run biome use to try your new environment."
+  echo "  - Profit?"
   ;;
 
-# Install all variables into the global project config
 *)
-  get_project $2
-  fetch_var_values
-  echo "Great! To use these variables, run biome use $PROJECT"
+  echo "Hmm, I don't know how to do that. Run biome help for assistance."
   ;;
+
 esac
