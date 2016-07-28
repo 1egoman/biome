@@ -144,12 +144,11 @@ init)
 # Nuke the specified project's environment and Biomefile
 rm)
   get_project $2
-  if [[ -f "Biomefile" ]]; then
-    rm Biomefile
+  if [[ -f "$HOME/.biome/$PROJECT.sh" ]]; then
     rm $HOME/.biome/$PROJECT.sh
-    echo "Removed local Biomefile and your environment."
+    echo "Removed your environment. Run biome to re-configure."
   else
-    echo "Error: There isn't a Biomefile here."
+    echo "Error: There isn't an environment for this project."
     exit 1
   fi
   ;;
@@ -159,7 +158,7 @@ help)
   echo "  biome init <project> - Create a new project in the current directory."
   echo "  biome edit [project] - Edit the current or the specified project."
   echo "  biome use [project] - Spawn a subshell containing a project's variables."
-  echo "  biome rm [project] - Deleta a project;s environment and Biomefile."
+  echo "  biome rm [project] - Delete a project's environment so it can be reconfigured."
   echo "  biome - Prompt for any template variables and add them to the ~/.biome/project.sh file."
   echo "(A good place to start is biome init project)."
   ;;
