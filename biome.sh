@@ -54,13 +54,23 @@ function fetch_var_values {
   if [[ -f "Biomefile" ]]; then
     while read -u 10 i; do
       if [[ ! "$i" =~ ^# ]]; then # not a comment
-        # get the value
+        # get the variable name, its default value
         VARIABLE_NAME=$(echo $i | sed 's/=.*//')
         VARIABLE_DEFAULT_VALUE=$(echo $i | cut -f2- -d'=')
-        if [[ "$VARIABLE_NAME" != "name" ]]; then
+
+        # also, get whether it's been set already.
+        if [[ -f "$PROJECT_PATH" ]]; then
+          VARIABLE_ALREADY_SET=$(cat $PROJECT_PATH | grep "^export $VARIABLE_NAME")
+        else
+          VARIABLE_ALREADY_SET=""
+        fi
+
+        if [[ "$VARIABLE_ALREADY_SET" != "" ]] && [[ "$VARIABLE_NAME" != "name" ]]; then
+          echo "$VARIABLE_NAME has been defined. Run biome edit to change its value."
+        elif [[ "$VARIABLE_NAME" != "name" ]]; then
           read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
 
-          # replace the value with the default
+          # replace the value with the default if the user didn't enter anything
           if [[ "$VARIABLE_VALUE" == "" ]]; then
             VARIABLE_VALUE=$VARIABLE_DEFAULT_VALUE
           fi
@@ -83,6 +93,12 @@ fi
 
 # all the different subcommands
 case $1 in
+# Install all variables into the global project config
+'')
+  get_project $2
+  fetch_var_values
+  echo "All variables for $PROJECT have been defined. To start this environment, run biome use."
+  ;;
 
 # given a project, source it into the current shell
 use)
@@ -133,7 +149,7 @@ init)
       fetch_var_values
 
       # make a commit with git
-      echo "Nice! To use this environment, run biome use!"
+      echo "The environment $PROJECT has been created. To start this environment, run biome use."
     fi
   else
     echo "Error: Biomefile exists. To re-init, remove the local Biomefile and try again."
@@ -144,30 +160,34 @@ init)
 # Nuke the specified project's environment and Biomefile
 rm)
   get_project $2
-  if [[ -f "Biomefile" ]]; then
-    rm Biomefile
+  if [[ -f "$HOME/.biome/$PROJECT.sh" ]]; then
     rm $HOME/.biome/$PROJECT.sh
-    echo "Removed local Biomefile and your environment."
+    echo "Removed your environment. Run biome to re-configure."
   else
-    echo "Error: There isn't a Biomefile here."
+    echo "Error: There isn't an environment for this project."
     exit 1
   fi
   ;;
 
 help)
+  echo "Usage: biome COMMAND [project]"
+  echo
   echo "Commands:"
   echo "  biome init <project> - Create a new project in the current directory."
   echo "  biome edit [project] - Edit the current or the specified project."
   echo "  biome use [project] - Spawn a subshell containing a project's variables."
-  echo "  biome rm [project] - Deleta a project;s environment and Biomefile."
+  echo "  biome rm [project] - Delete a project's environment so it can be reconfigured."
   echo "  biome - Prompt for any template variables and add them to the ~/.biome/project.sh file."
-  echo "(A good place to start is biome init project)."
+  echo
+  echo "Set up a new project:"
+  echo "  - Run biome init to create a new Biomefile to be used as template for setting up your envionment in the future."
+  echo "  - Run biome use to try your new environment."
+  echo "  - Profit?"
   ;;
 
-# Install all variables into the global project config
 *)
-  get_project $2
-  fetch_var_values
-  echo "Great! To use these variables, run biome use $PROJECT"
+  echo "Hmm, I don't know how to do that. Run biome help for assistance."
+  exit 1
   ;;
+
 esac
