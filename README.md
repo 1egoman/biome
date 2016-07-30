@@ -1,7 +1,8 @@
 <img src="https://raw.githubusercontent.com/1egoman/biome/master/resources/logo.png" style="width: 300px;" />
 
-# Biome
 [![CircleCI](https://circleci.com/gh/1egoman/biome.svg?style=shield)](https://circleci.com/gh/1egoman/biome)
+
+# Biome
 A shell script to manage your app's environment.
 
 Biome stores the makeup of your app's environment, so when a new user or contributor wants to run
