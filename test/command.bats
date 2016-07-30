@@ -2,6 +2,10 @@
 # a quick note: this file uses tabs to ensure that <<-EOF will work properly. Please use tabs too!
 load test_helper
 
+@test "true" {
+	true
+}
+
 # ----------------------------------------------------------------------------
 # biome init
 # ------------------------------------------------------------------------------
