@@ -16,8 +16,11 @@ function get_project {
     PROJECT=$PASSED_PROJECT
 
   # otherwise, throw an error
-  else
+  elif [[ "$PASSED_PROJECT" ]]; then
     echo "Error: no such project $PASSED_PROJECT."
+    exit 1
+  else
+    echo "Error: please pass a project as an argument or create a Biomefile with biome init."
     exit 1
   fi
 
