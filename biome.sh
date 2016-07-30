@@ -187,6 +187,7 @@ help)
 
 *)
   echo "Hmm, I don't know how to do that. Run biome help for assistance."
+  exit 1
   ;;
 
 esac

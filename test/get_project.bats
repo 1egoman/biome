@@ -40,7 +40,7 @@ load test_helper
 	run cat $HOME/.biome/my_app.sh # (the file should not exist)
 	[[ "$status" == 1 ]]
 }
-@test "get_project should fil without a Biomefile or passed project" {
+@test "get_project should fail without a Biomefile or passed project" {
 	# no Biomefile
 	run $BIOME rm
 	[[ "$status" == 1 ]]
