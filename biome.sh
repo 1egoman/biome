@@ -97,7 +97,7 @@ case $1 in
 '')
   get_project $2
   fetch_var_values
-  echo "Great! To use these variables, run biome use $PROJECT"
+  echo "All variables for $PROJECT have been defined. To start this environment, run biome use."
   ;;
 
 # given a project, source it into the current shell
@@ -149,7 +149,7 @@ init)
       fetch_var_values
 
       # make a commit with git
-      echo "Nice! To use this environment, run biome use!"
+      echo "The environment $PROJECT has been created. To start this environment, run biome use."
     fi
   else
     echo "Error: Biomefile exists. To re-init, remove the local Biomefile and try again."
