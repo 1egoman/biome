@@ -174,6 +174,7 @@ load test_helper
 	mkdir -p $HOME/.biome
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export A_VARIABLE="value"
+	export ANOTHER="content with spaces"
 	EOF
 
 	# log all environment variables within the shell to ~/environment
@@ -185,6 +186,7 @@ load test_helper
 	chmod 700 $HOME/.biome/my_app.sh
 	# these variables should be set
 	[[ "$(cat $HOME/environment | grep A_VARIABLE=value)" != "" ]] &&
+	[[ "$(cat $HOME/environment | grep ANOTHER=content\ with\ spaces)" != "" ]] &&
 	[[ "$(cat $HOME/environment | grep BIOME_SHELL=true)" != "" ]] &&
 	[[ "$(cat $HOME/environment | grep BIOME_PROJECT=my_app)" != "" ]];
 }
