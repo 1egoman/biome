@@ -1,11 +1,7 @@
-machine:
-  node:
-    version: 5.3.0
-
 checkout:
   post:
     - git clone https://github.com/sstephenson/bats.git
-    - cd bats && ./install.sh /usr/local
+    - cd bats && sudo ./install.sh /usr/local
 
 test:
   override:
