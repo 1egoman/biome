@@ -54,13 +54,23 @@ function fetch_var_values {
   if [[ -f "Biomefile" ]]; then
     while read -u 10 i; do
       if [[ ! "$i" =~ ^# ]]; then # not a comment
-        # get the value
+        # get the variable name, its default value
         VARIABLE_NAME=$(echo $i | sed 's/=.*//')
         VARIABLE_DEFAULT_VALUE=$(echo $i | cut -f2- -d'=')
-        if [[ "$VARIABLE_NAME" != "name" ]]; then
+
+        # also, get whether it's been set already.
+        if [[ -f "$PROJECT_PATH" ]]; then
+          VARIABLE_ALREADY_SET=$(cat $PROJECT_PATH | grep "^export $VARIABLE_NAME")
+        else
+          VARIABLE_ALREADY_SET=""
+        fi
+
+        if [[ "$VARIABLE_ALREADY_SET" != "" ]] && [[ "$VARIABLE_NAME" != "name" ]]; then
+          echo "$VARIABLE_NAME has been defined. Run biome edit to change its value."
+        elif [[ "$VARIABLE_NAME" != "name" ]]; then
           read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
 
-          # replace the value with the default
+          # replace the value with the default if the user didn't enter anything
           if [[ "$VARIABLE_VALUE" == "" ]]; then
             VARIABLE_VALUE=$VARIABLE_DEFAULT_VALUE
           fi
