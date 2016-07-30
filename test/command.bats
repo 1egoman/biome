@@ -1,23 +1,6 @@
 #!/bin/env bats
 # a quick note: this file uses tabs to ensure that <<-EOF will work properly. Please use tabs too!
-
-function setup {
-	BIOME="$(pwd)/biome.sh"
-	TEST_ROOT="$(pwd)/test"
-	clean_test
-}
-
-# reset the test location
-function clean_test {
-	cd $TEST_ROOT
-	rm -R workspace/
-	mkdir workspace
-	mkdir workspace/cwd
-	mkdir workspace/home
-	OLDHOME="$HOME"
-	HOME="$(pwd)/workspace/home"
-	cd workspace/cwd
-}
+load test_helper
 
 # ----------------------------------------------------------------------------
 # biome init
@@ -39,7 +22,6 @@ function clean_test {
 		export FOO="bar"
 	EOF)
 }
-
 @test "biome init will initialize a new project with values" {
 	INPUT="$(cat <<-EOF
 	my_app
@@ -58,14 +40,12 @@ function clean_test {
 		export FOO="baz"
 	EOF)
 }
-
 @test "biome init will fail with a Biomefile" {
 	touch Biomefile
 
 	run $BIOME init
 	[ "$status" -eq 1 ]
 }
-
 @test "biome init will fail with a preexisting environment" {
 	echo "name=my_app" > Biomefile
 	mkdir -p $HOME/.biome
@@ -101,7 +81,6 @@ function clean_test {
 		export FOO="more data"
 	EOF)
 }
-
 @test "biome will append to an already existing environment" {
 	# create Biomefile ane pre-initialized data
 	cat <<-EOF > Biomefile
@@ -133,6 +112,57 @@ function clean_test {
 }
 
 # ----------------------------------------------------------------------------
+# biome rm
+# ------------------------------------------------------------------------------
+
+@test "biome rm will remove an environment" {
+	# create Biomefile ane pre-initialized data
+	cat <<-EOF > Biomefile
+	name=my_app
+	EOF
+	mkdir -p $HOME/.biome
+	cat <<-EOF > $HOME/.biome/my_app.sh
+	export A_VARIABLE="value"
+	EOF
+
+	$BIOME rm
+
+	# make sure the environment doesn't exist
+	run cat $HOME/.biome/my_app.sh
+	[[ "$status" == 1 ]]
+
+	# but also that the Biomefile does exist
+	[[ "$(cat Biomefile)" == "name=my_app" ]]
+}
+@test "biome rm won't delete a non-existant environment" {
+	# create Biomefile ane pre-initialized data
+	cat <<-EOF > Biomefile
+	name=my_app
+	EOF
+	mkdir -p $HOME/.biome
+	# no environment
+
+	run $BIOME rm
+	[[ "$status" == 1 ]]
+
+	# but also that the Biomefile does exist
+	[[ "$(cat Biomefile)" == "name=my_app" ]]
+}
+@test "biome rm won't delete a non-existant environment (no .biome folder)" {
+	# create Biomefile ane pre-initialized data
+	cat <<-EOF > Biomefile
+	name=my_app
+	EOF
+	# no environment
+
+	run $BIOME rm
+	[[ "$status" == 1 ]]
+
+	# but also that the Biomefile does exist
+	[[ "$(cat Biomefile)" == "name=my_app" ]]
+}
+
+# ----------------------------------------------------------------------------
 # biome use
 # ------------------------------------------------------------------------------
 
@@ -159,7 +189,21 @@ function clean_test {
 	[[ "$(cat $HOME/environment | grep BIOME_PROJECT=my_app)" != "" ]];
 }
 
+# ----------------------------------------------------------------------------
+# biome help
+# ------------------------------------------------------------------------------
 
+@test "biome help will show help" {
+	run $BIOME help
+	[[ "$status" == 0 ]] &&
+	[[ "${lines[0]}" = "Usage: biome COMMAND [project]" ]]
+}
+
+@test "biome will fail for an unknown command" {
+	run $BIOME something-unknown
+	[[ "$status" == 1 ]] &&
+	[[ "${lines[0]}" = "Hmm, I don't know how to do that. Run biome help for assistance." ]]
+}
 
 
 
