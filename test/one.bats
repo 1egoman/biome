@@ -75,6 +75,10 @@ function clean_test {
 	[ "$status" -eq 1 ]
 }
 
+# ----------------------------------------------------------------------------
+# biome
+# ------------------------------------------------------------------------------
+
 @test "biome will create the environment that's defined in the Biomefile" {
 	cat <<-EOF > Biomefile
 	name=my_app
@@ -127,6 +131,35 @@ function clean_test {
 		export FOO="more data"
 	EOF)
 }
+
+# ----------------------------------------------------------------------------
+# biome use
+# ------------------------------------------------------------------------------
+
+@test "biome use will spawn a subshell with the correct environment vars set" {
+	# create Biomefile ane pre-initialized data
+	cat <<-EOF > Biomefile
+	name=my_app
+	EOF
+	mkdir -p $HOME/.biome
+	cat <<-EOF > $HOME/.biome/my_app.sh
+	export A_VARIABLE="value"
+	EOF
+
+	# log all environment variables within the shell to ~/environment
+	OLDSHELL="$SHELL"
+	SHELL="bash -c 'env > $HOME/environment'"
+	run $BIOME use # use run so the command will always run so the shell can be reset
+	SHELL="$OLDSHELL"
+
+	chmod 700 $HOME/.biome/my_app.sh
+	# these variables should be set
+	[[ "$(cat $HOME/environment | grep A_VARIABLE=value)" != "" ]] &&
+	[[ "$(cat $HOME/environment | grep BIOME_SHELL=true)" != "" ]] &&
+	[[ "$(cat $HOME/environment | grep BIOME_PROJECT=my_app)" != "" ]];
+}
+
+
 
 
 
