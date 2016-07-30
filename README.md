@@ -11,7 +11,12 @@ up the environment, and for authors of a package it means less work trying to fi
 misconfigured environment.
 
 ## Install
-Biome is written in bash, and can be installed by running:
+```bash
+brew tap 1egoman/tap
+brew install biome
+```
+
+If you're on linux, here's a 1-liner:
 ```bash
 curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/local/bin/biome && sudo chmod +x /usr/local/bin/biome
 ```
