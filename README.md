@@ -12,6 +12,7 @@ projects name as well as each of the project's variable mapped to its default va
 contains no secret information, it can (and should) be version-controlled.
 
 ```bash
+# /app/Biomefile
 name=my_cool_app
 FOO=bar
 BAZ=Multiple words work too
@@ -24,13 +25,13 @@ to run within. These environments are stored in `~/.biome`, indexed by the `name
 entering any overrides for their system.
 
 ```bash
+# ~/.biome/my_cool_app.sh
 export FOO="value overriden from default"
 export BAZ="Multiple words work too"
 export KEY_WITHOUT_DEFAULT="a value must be defined here"
 ```
 From the root of the repository, a user can run `biome use`, which will spawn a subshell and source
 the specified environment.
-
 
 ## Install
 ```bash
