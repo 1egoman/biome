@@ -2,31 +2,11 @@
 # a quick note: this file uses tabs to ensure that <<-EOF will work properly. Please use tabs too!
 load test_helper
 
-@test "true" {
-	true
-}
-
 # ----------------------------------------------------------------------------
 # biome init
 # ------------------------------------------------------------------------------
 
 @test "biome init will initialize a new project" {
-	INPUT="$(cat <<-EOF
-	my_app
-	FOO
-	bar
-	EOF)"
-
-	echo "$INPUT" | $BIOME init
-	$(cmp $HOME/.biome/my_app.sh <<-EOF
-		# A file that contains environment variables for a project
-		# Activate me with biome use my_app
-		# add variables like export FOO="bar"
-		# include other variables with source /path/to/more/vars
-		export FOO="bar"
-	EOF)
-}
-@test "biome init will initialize a new project with values" {
 	INPUT="$(cat <<-EOF
 	my_app
 	FOO
