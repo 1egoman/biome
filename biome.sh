@@ -6,17 +6,17 @@
 # Walk backward from the pwd until the root. If there's a Biomefile, return it.
 # Once at the root, (where dirname of a path equals the path itself), throw an error.
 function get_biomefile {
-  BIOMEFILE_FIND_PREFIX="$(pwd)"
-  BIOMEFILE_LAST_FIND_PREFIX=""
-  while [[ ! -f "$BIOMEFILE_FIND_PREFIX/Biomefile" ]]; do
-    BIOMEFILE_LAST_FIND_PREFIX="$BIOMEFILE_FIND_PREFIX"
-    BIOMEFILE_FIND_PREFIX="$(dirname "$BIOMEFILE_FIND_PREFIX")"
+  local find_prefix="$(pwd)"
+  local last_find_prefix=""
+  while [[ ! -f "$find_prefix/Biomefile" ]]; do
+    last_find_prefix="$find_prefix"
+    find_prefix="$(dirname "$last_find_prefix")"
 
-    if [[ "$BIOMEFILE_FIND_PREFIX" == "$BIOMEFILE_LAST_FIND_PREFIX" ]]; then
+    if [[ "$find_prefix" == "$last_find_prefix" ]]; then
       return 1 # no biomefile was found
     fi
   done
-  BIOMEFILE="$BIOMEFILE_FIND_PREFIX/Biomefile"
+  BIOMEFILE="$find_prefix/Biomefile"
 }
 
 function get_project {
