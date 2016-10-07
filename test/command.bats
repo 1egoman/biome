@@ -192,6 +192,36 @@ load test_helper
 }
 
 
+# ----------------------------------------------------------------------------
+# Biomefile nesting
+# (Make sure that Biome can find, for example, ../Biomefile)
+# ----------------------------------------------------------------------------
+@test "biome should be able to find a biomefile that is nested 1 level below the current cwd" {
+	echo "name=my_app" > ../Biomefile
+	mkdir -p $HOME/.biome
+	touch $HOME/.biome/my_app.sh
+
+	run $BIOME use my_app
+	rm Biomefile
+	[ "$status" -eq 0 ]
+}
+@test "biome should be able to find a biomefile that is nested multiple levels below the current cwd" {
+	echo "name=my_app" > ../../Biomefile
+	mkdir -p $HOME/.biome
+	touch $HOME/.biome/my_app.sh
+
+	run $BIOME use my_app
+	rm ../Biomefile
+	[ "$status" -eq 0 ]
+}
+@test "biome fails when a biomefile does not exist at any level" {
+	mkdir -p $HOME/.biome
+	touch $HOME/.biome/my_app.sh
+
+	run $BIOME use my_app
+	[ "$status" -eq 0 ]
+}
+
 
 
 HOME="$OLDHOME"
