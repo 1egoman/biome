@@ -25,7 +25,6 @@ function get_project {
 
   # step 0: get the Biomefile path, if a project was not passed
   get_biomefile
-  echo "Biomefile path: $BIOMEFILE"
 
   # step 1: if the passed project doesn't exist and there's a Biomefile, use the Biomefile.
   if ([[ "$PASSED_PROJECT" == "" ]] || [[ ! -f "$PASSED_PROJECT_PATH" ]]) && [[ -f "$BIOMEFILE" ]]; then
