@@ -202,8 +202,8 @@ load test_helper
 	touch $HOME/.biome/my_app.sh
 
 	run $BIOME use my_app
-	rm Biomefile
 	[ "$status" -eq 0 ]
+	rm ../Biomefile
 }
 @test "biome should be able to find a biomefile that is nested multiple levels below the current cwd" {
 	echo "name=my_app" > ../../Biomefile
@@ -211,8 +211,8 @@ load test_helper
 	touch $HOME/.biome/my_app.sh
 
 	run $BIOME use my_app
-	rm ../Biomefile
 	[ "$status" -eq 0 ]
+	rm ../../Biomefile
 }
 @test "biome fails when a biomefile does not exist at any level" {
 	mkdir -p $HOME/.biome
