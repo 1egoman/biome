@@ -137,6 +137,11 @@ use)
 	;;
 
 # When in a biome shell, update variables to their latest values.
+# For example:
+# biome use
+# $ # change the defined values with biome edit
+# $ biome inject
+# $ now the values are still updated
 inject)
 	if [[ "$BIOME_PROJECT" != "" ]]; then
 		BIOME_PROJECT_NO_WHITESPACE="$(echo $BIOME_PROJECT | sed 's/ //g')"
