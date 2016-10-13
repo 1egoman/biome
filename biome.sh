@@ -141,7 +141,7 @@ use)
 # biome use
 # $ # change the defined values with biome edit
 # $ biome inject
-# $ now the values are still updated
+# $ # now the values are updated following edits
 inject)
 	if [[ "$BIOME_PROJECT" != "" ]]; then
 		BIOME_PROJECT_NO_WHITESPACE="$(echo $BIOME_PROJECT | sed 's/ //g')"
@@ -161,6 +161,9 @@ edit)
 	else
 		vi $PROJECT_PATH
 	fi
+
+	echo "Note: if you have any biome sessions open, make sure you run biome inject to copy any
+	edits you just made to each session."
 	;;
 
 # Create a new local Biomefile and associated template
