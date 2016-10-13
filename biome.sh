@@ -2,13 +2,34 @@
 # Biome is a script that manages an isolated shell environment for a project.
 # Written by Ryan Gaus
 
+# From the CWD, find the nearest Biomefile.
+# Walk backward from the pwd until the root. If there's a Biomefile, return it.
+# Once at the root, (where dirname of a path equals the path itself), throw an error.
+function get_biomefile {
+  local find_prefix="$(pwd)"
+  local last_find_prefix=""
+  while [[ ! -f "$find_prefix/Biomefile" ]]; do
+    last_find_prefix="$find_prefix"
+    find_prefix="$(dirname "$last_find_prefix")"
+
+    if [[ "$find_prefix" == "$last_find_prefix" ]]; then
+      return 1 # no biomefile was found
+    fi
+  done
+  BIOMEFILE="$find_prefix/Biomefile"
+}
+
 function get_project {
   PASSED_PROJECT=$1
   PASSED_PROJECT_PATH="$HOME/.biome/$1.sh"
 
+  # step 0: get the Biomefile path, if a project was not passed
+  get_biomefile
+  echo "Biomefile path: $BIOMEFILE"
+
   # step 1: if the passed project doesn't exist and there's a Biomefile, use the Biomefile.
-  if ([[ "$PASSED_PROJECT" == "" ]] || [[ ! -f "$PASSED_PROJECT_PATH" ]]) && [[ -f "Biomefile" ]]; then
-    PROJECT=$(cat Biomefile | grep ^name | cut -f2- -d'=')
+  if ([[ "$PASSED_PROJECT" == "" ]] || [[ ! -f "$PASSED_PROJECT_PATH" ]]) && [[ -f "$BIOMEFILE" ]]; then
+    PROJECT=$(cat $BIOMEFILE | grep ^name | cut -f2- -d'=')
 
   # if the passed project's path exists, then use the passed project
   elif [[ -f "$PASSED_PROJECT_PATH" ]]; then
@@ -54,7 +75,8 @@ EOF
 # Get all defined variables in the Biomefile, and ask the user for their values. Stick these in
 # ~/.biome/$PROJECT.sh
 function fetch_var_values {
-  if [[ -f "Biomefile" ]]; then
+  get_biomefile
+  if [[ -f "$BIOMEFILE" ]]; then
     while read -u 10 i; do
       if [[ ! "$i" =~ ^# ]]; then # not a comment
         # get the variable name, its default value
@@ -81,7 +103,7 @@ function fetch_var_values {
           echo export $VARIABLE_NAME=\"$VARIABLE_VALUE\" >> $HOME/.biome/$PROJECT.sh
         fi
       fi
-    done 10< Biomefile
+    done 10< "Biomefile"
   else
     echo "There isn't a Biomefile here. To create a new project, run biome init."
     echo "For help, run biome help."
