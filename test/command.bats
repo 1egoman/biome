@@ -182,7 +182,7 @@ load test_helper
 @test "biome help will show help" {
 	run $BIOME help
 	[[ "$status" == 0 ]] &&
-	[[ "${lines[0]}" = "Usage: biome COMMAND [project]" ]]
+	[[ "${lines[0]}" = "usage: biome <command>" ]]
 }
 
 @test "biome will fail for an unknown command" {
