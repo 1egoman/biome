@@ -194,19 +194,23 @@ rm)
   ;;
 
 help)
-  echo "Usage: biome COMMAND [project]"
+  echo "usage: biome <command>"
   echo
   echo "Commands:"
-  echo "  biome init <project> - Create a new project in the current directory."
-  echo "  biome edit [project] - Edit the current or the specified project."
-  echo "  biome use [project] - Spawn a subshell containing a project's variables."
-  echo "  biome rm [project] - Delete a project's environment so it can be reconfigured."
-  echo "  biome - Prompt for any template variables and add them to the ~/.biome/project.sh file."
+  echo "  init\tCreate a new environment for the project in the current directory."
+  echo "  edit\tEdit the environment in the current directory."
+  echo "  use\tSpawn a subshell with the project in the cwd's sourced environment."
+  echo "  rm\tDelete a project's environment so it can be reconfigured."
+  echo "  (no command)\tGiven the template specified in the Biomefile, create a new environment for your app."
   echo
   echo "Set up a new project:"
-  echo "  - Run biome init to create a new Biomefile to be used as template for setting up your envionment in the future."
-  echo "  - Run biome use to try your new environment."
-  echo "  - Profit?"
+  echo "  - Run biome init to make a new environment. You;ll be prompted for a name and the default configuration."
+  echo "  - Run biome use to try out your new environment. Leave the environment by running exit."
+  echo "  - Make any changes to your environment with biome edit"
+  echo
+  echo "Create a new environment in a project that already uses Biome:"
+  echo "  - Run biome. You'll be prompted for all the configuration values that the Biomefile contains."
+  echo "  - Run biome use to try out your new environment. Leave the environment by running exit."
   ;;
 
 *)
