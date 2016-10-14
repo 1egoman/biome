@@ -140,9 +140,17 @@ use)
 # For example:
 # biome use
 # $ # change the defined values with biome edit
-# $ biome inject
+# $ . biome inject
 # $ # now the values are updated following edits
 inject)
+	# is being sourced?
+	if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+		echo "Error: please source this script by eitehr running \`. biome inject\` or \`source biome inject\`"
+		exit 1
+	fi
+
+
+	# if already inside of a biome shell, update its contents.
 	if [[ "$BIOME_PROJECT" != "" ]]; then
 		BIOME_PROJECT_NO_WHITESPACE="$(echo $BIOME_PROJECT | sed 's/ //g')"
 		PROJECT_PATH="$HOME/.biome/$BIOME_PROJECT_NO_WHITESPACE.sh"
