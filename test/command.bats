@@ -1,4 +1,5 @@
 #!/bin/env bats
+# vim: set autoindent noexpandtab tabstop=4 shiftwidth=4 :
 # a quick note: this file uses tabs to ensure that <<-EOF will work properly. Please use tabs too!
 load test_helper
 
@@ -189,6 +190,31 @@ load test_helper
 	run $BIOME something-unknown
 	[[ "$status" == 1 ]] &&
 	[[ "${lines[0]}" = "Hmm, I don't know how to do that. Run biome help for assistance." ]]
+}
+
+# ----------------------------------------------------------------------------
+# biome inject
+# ----------------------------------------------------------------------------
+@test "biome inject will update a biome session" {
+	# create Biomefile ane pre-initialized data
+	cat <<-EOF > Biomefile
+	name=my_app
+	EOF
+	mkdir -p $HOME/.biome
+	cat <<-EOF > $HOME/.biome/my_app.sh
+	export FOO="bar"
+	EOF
+
+	# log all environment variables within the shell to ~/environment
+	OLDSHELL="$SHELL"
+	SHELL="bash -c 'env > $HOME/pre && echo \"export a=b\" >> $HOME/.biome/my_app.sh && . $BIOME inject && env > $HOME/post'"
+	run $BIOME use # use run so the command will always run so the shell can be reset
+	SHELL="$OLDSHELL"
+
+	# these variables should be set
+	# They need to be pinned to the front because the $SHELL also contains the variable declaration
+	[[ "$(cat $HOME/pre | grep ^a=b)" == "" ]] && # should not be updated at start
+	[[ "$(cat $HOME/post | grep ^a=b)" != "" ]];  # should be updated by the end
 }
 
 
