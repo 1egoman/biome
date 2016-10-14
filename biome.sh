@@ -145,7 +145,7 @@ use)
 inject)
 	# is being sourced?
 	if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-		echo "Error: please source this script by eitehr running \`. biome inject\` or \`source biome inject\`"
+		echo "Error: please source this script by either running \`. biome inject\` or \`source biome inject\`"
 		exit 1
 	fi
 
