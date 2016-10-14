@@ -1,22 +1,23 @@
+<img src="https://raw.githubusercontent.com/1egoman/biome/master/resources/logo.png" style="width: 300px;" />
+
 # Biome
 Biome is a tool to create isolated containers for your app's environment variables.
 
-<img src="https://raw.githubusercontent.com/1egoman/biome/master/resources/logo.png" style="width: 300px;" />
-
 [![CircleCI](https://circleci.com/gh/1egoman/biome.svg?style=shield)](https://circleci.com/gh/1egoman/biome)
 
-
+## Introduction
 Typically, one stores all their environment variables in `.env` (or something similar), and sources
 them in before running their app. This is bad for two reasons:
+
 1. Forget to gitignore your `.env` file? Time to regenerate all your secrets.
 2. If you need to re-clone your project, you have to reconstruct your environment.
 
-Biome takes a different approach. creates separate "containers" for your app's configuration
-to live in. Each container can easily be sourced to bring in all of your app's secrets. Each app's
-configuration lives in `~/.biome/app_name.sh` - this contains all your secrets. Within each project
-is a `Biomefile` that references the container name in `~/.biome`, and this file is version
-controlled along with your code. Combining these two files allows new users to easily construct
-their own version of your environment.
+Biome takes a different approach. Biome creates separate "environments" for each of your app's
+configurations to live in. Each environment can easily be sourced to bring in all of your app's
+secrets. Each app's configuration lives in `~/.biome/app_name.sh` - all secrets live far away from
+code. Within each project is a `Biomefile` that references the container name in `~/.biome`, and
+this file is version controlled along with your code. Combining these two files allows new users to
+easily construct their own version of your environment.
 
 ## Install
 ```bash
@@ -32,7 +33,7 @@ For help, run `biome help`.
 
 ## Quickstart
 First, create a new environment by running `biome init`:
-```bash
+```
 Name of project? biome-project
 Enter a variable name you'd like to add. FOO      
 Enter FOO's default value, or leave empty for none. default value      
