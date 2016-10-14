@@ -1,8 +1,10 @@
+# Biome
+Biome is a tool to create isolated containers for your app's environment variables.
+
 <img src="https://raw.githubusercontent.com/1egoman/biome/master/resources/logo.png" style="width: 300px;" />
 
 [![CircleCI](https://circleci.com/gh/1egoman/biome.svg?style=shield)](https://circleci.com/gh/1egoman/biome)
 
-Biome is a tool to create isolated containers for your app's environment variables.
 
 Typically, one stores all their environment variables in `.env` (or something similar), and sources
 them in before running their app. This is bad for two reasons:
