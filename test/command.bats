@@ -245,7 +245,7 @@ load test_helper
 	touch $HOME/.biome/my_app.sh
 
 	run $BIOME use my_app
-	[ "$status" -eq 0 ]
+	[ "$status" -eq 1 ]
 }
 
 
