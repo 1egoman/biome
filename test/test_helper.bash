@@ -10,14 +10,13 @@ function setup {
 # reset the test state
 function clean_test {
 	cd $TEST_ROOT
-	[[ -d workspace/ ]] && rm -R workspace/
+	[[ -d workspace/ ]] && rm -rf workspace/
 
 	mkdir workspace
-	chmod 777 workspace/
 	mkdir workspace/cwd
-	chmod 777 workspace/cwd
 	mkdir workspace/home
-	chmod 777 workspace/home
+
+	chmod -R 777 workspace/
 
 	OLDHOME="$HOME"
 	HOME="$(pwd)/workspace/home"
