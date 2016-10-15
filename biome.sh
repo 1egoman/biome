@@ -247,7 +247,8 @@ help)
 	echo "  - Run biome. You'll be prompted for all the configuration values that the Biomefile contains."
 	echo "  - Run biome use to try out your new environment. Leave the environment by running exit."
 	echo
-;;
+	;;
+
 *)
 	echo "Hmm, I don't know how to do that. Run biome help for assistance."
 	exit 1
