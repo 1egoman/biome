@@ -6,7 +6,7 @@ Biome is a tool that creates isolated containers for your app's environment vari
 
 ## Introduction
 Typically, one stores all their environment variables in `.env` (or something similar), and sources
-them in before running their app. This is bad for two reasons:
+them in, before running their app. This is bad for two reasons:
 
 1. Forgot to gitignore your `.env` file? Time to regenerate all your secrets.
 2. If you need to re-clone your project, you have to reconstruct your environment.
@@ -70,7 +70,7 @@ Create a new environment in a project that already uses Biome:
 ```
 
 ## FAQ
-- **Is there an easy way to tell which environment I'm in within a shell created by biome use?**
+- **Is there an easy way to tell which environment I'm in within a shell created by biome?**
 Biome sets a few additional environment variables (see them with `env | grep BIOME`), one of
 them being `BIOME_PROJECT`. This contains the name of the current project that has been loaded from
 the environment.
