@@ -52,8 +52,8 @@ function set_meta_vars {
 	export BIOME_SHELL="true"
 	export BIOME_PROJECT="$PROJECT"
 
-	# add the project name to the shell prompt
-	if [[ -n "$BASH_VERSION" ]]; then
+	# add the project name to the shell prompt if possible and necessary
+	if [[ -n "$BASH_VERSION" ]] && [[ -z "$BIOME_SHELL_INIT_CFG" ]]; then
 		INITIAL_PROMPT_COMMAND="$PROMPT_COMMAND"
 		export PROMPT_COMMAND="PS1=\"($PROJECT) \$PS1\"; unset PROMPT_COMMAND"
 	fi
@@ -63,7 +63,7 @@ function unset_meta_vars {
 	unset BIOME_PROJECT
 
 	# reset any modifications involving the shell prompt
-	if [[ -n "$BASH_VERSION" ]]; then
+	if [[ -n "$BASH_VERSION" ]] && [[ -z "$BIOME_SHELL_INIT_CFG" ]]; then
 		PROMPT_COMMAND="$INITIAL_PROMPT_COMMAND"
 	fi
 }
@@ -125,6 +125,16 @@ function fetch_var_values {
 # if ~/.biome doesn't exist, make it
 if [[ ! -d "$HOME/.biome" ]]; then
 	mkdir $HOME/.biome
+
+	# add .bash_profile code for biome child shells
+	if [[ -n "$BASH_VERSION" ]] && [[ -f ~/.bash_profile ]]; then
+		echo -e "
+# biome configuration
+export BIOME_SHELL_INIT_CFG=\"true\"
+if [[ ! -z \"\$BIOME_PROJECT\" ]]; then
+	export PS1=\"(\$BIOME_PROJECT) \$PS1\"
+fi" >> ~/.bash_profile
+	fi
 fi
 
 # all the different subcommands
