@@ -1,4 +1,4 @@
-<h1><a href="https://github.com/1egoman/biome" target="_blank"><img width="350" src="./logo.svg"></a></h1>
+<h1><a href="https://github.com/1egoman/biome" target="_blank"><img width="350" src="./logo.png"></a></h1>
 
 Biome is a tool to create isolated containers for your app's environment variables.
 
