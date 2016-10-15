@@ -47,7 +47,27 @@ The environment biome-project has been created. To start this environment, run b
 Then, to open your environment, run `biome use`. You'll get a shell with the variables defined that
 you specified in the previous command. Exit the shell with `exit`.
 
-To learn more, run `biome help`.
+To learn more, run `biome help`:
+```
+usage: biome <command>
+
+Commands:
+  init         Create a new environment for the project in the current directory.
+  edit         Edit the environment in the current directory.
+  use          Spawn a subshell with the project in the cwd's sourced environment.
+  inject       Update a new environment with changes since it has been activated with biome use.
+  rm           Delete a project's environment so it can be reconfigured.
+  (no command) Given the template specified in the Biomefile, create a new environment for your app.
+
+Set up a new project:
+  - Run biome init to make a new environment. You;ll be prompted for a name and the default configuration.
+  - Run biome use to try out your new environment. Leave the environment by running exit.
+  - Make any changes to your environment with biome edit
+
+Create a new environment in a project that already uses Biome:
+  - Run biome. You'll be prompted for all the configuration values that the Biomefile contains.
+  - Run biome use to try out your new environment. Leave the environment by running exit.
+```
 
 ## FAQ
 - **Is there an easy way to tell which environment I'm in within a shell created by biome use?**
