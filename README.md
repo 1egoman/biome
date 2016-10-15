@@ -19,14 +19,12 @@ this file is version controlled along with your code. Combining these two files 
 easily construct their own version of your environment.
 
 ## Install
-#If you're on Mac,
 ```bash
 brew tap 1egoman/tap
 brew install biome
 ```
 
-#If you're on Linux, 
-here's a 1-liner to install it in `/usr/local/bin/biome`:
+or, here's a 1-liner to install it in `/usr/local/bin/biome`:
 ```bash
 curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/local/bin/biome && sudo chmod +x /usr/local/bin/biome
 ```
