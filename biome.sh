@@ -51,10 +51,21 @@ function get_project {
 function set_meta_vars {
 	export BIOME_SHELL="true"
 	export BIOME_PROJECT="$PROJECT"
+
+	# add the project name to the shell prompt
+	if [[ -n "$BASH_VERSION" ]]; then
+		INITIAL_PROMPT_COMMAND="$PROMPT_COMMAND"
+		export PROMPT_COMMAND="PS1=\"($PROJECT) \$PS1\"; unset PROMPT_COMMAND"
+	fi
 }
 function unset_meta_vars {
 	unset BIOME_SHELL
 	unset BIOME_PROJECT
+
+	# reset any modifications involving the shell prompt
+	if [[ -n "$BASH_VERSION" ]]; then
+		PROMPT_COMMAND="$INITIAL_PROMPT_COMMAND"
+	fi
 }
 
 function get_variable {
