@@ -143,7 +143,7 @@ load test_helper
 	# no environment
 
 	run $BIOME rm
-	[[ "$status" == 1 ]]
+	[[ "$status" != 0 ]]
 
 	# but also that the Biomefile does exist
 	[[ "$(cat Biomefile)" == "name=my_app" ]]
