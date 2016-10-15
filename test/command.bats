@@ -6,7 +6,6 @@ load test_helper
 # ----------------------------------------------------------------------------
 # biome init
 # ------------------------------------------------------------------------------
-
 @test "biome init will initialize a new project" {
 	INPUT="$(cat <<-EOF
 	my_app
@@ -25,19 +24,21 @@ load test_helper
 		export FOO="baz"
 	EOF)
 }
+
 @test "biome init will fail with a Biomefile" {
 	touch Biomefile
 
 	run $BIOME init
-	[ "$status" -eq 1 ]
+	[[ "$status" != 0 ]]
 }
+
 @test "biome init will fail with a preexisting environment" {
 	echo "name=my_app" > Biomefile
 	mkdir -p $HOME/.biome
-	touch $HOME/.biome/my_app.sh
+	touch "$HOME/.biome/my_app.sh"
 
 	run $BIOME init
-	[ "$status" -eq 1 ]
+	[[ "$status" != 0 ]]
 }
 
 # ----------------------------------------------------------------------------
@@ -59,13 +60,14 @@ load test_helper
 	EOF)"
 	echo "$INPUT" | $BIOME
 
-	chmod 700 $HOME/.biome/my_app.sh
+	chmod 700 "$HOME/.biome/my_app.sh"
 	$(cmp $HOME/.biome/my_app.sh <<-EOF
 		export FOO="data"
 		export BAR="world"
 		export FOO="more data"
 	EOF)
 }
+
 @test "biome will append to an already existing environment" {
 	# create Biomefile ane pre-initialized data
 	cat <<-EOF > Biomefile
@@ -75,7 +77,7 @@ load test_helper
 	BAR=world
 	BAZ=
 	EOF
-	mkdir -p $HOME/.biome
+	mkdir -p "$HOME/.biome"
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export ALREADY_EXISTS="hello"
 	EOF
@@ -87,7 +89,7 @@ load test_helper
 	EOF)"
 	echo "$INPUT" | $BIOME
 
-	chmod 700 $HOME/.biome/my_app.sh
+	chmod 700 "$HOME/.biome/my_app.sh"
 	$(cmp $HOME/.biome/my_app.sh <<-EOF
 		export ALREADY_EXISTS="hello"
 		export FOO="data"
@@ -105,7 +107,7 @@ load test_helper
 	cat <<-EOF > Biomefile
 	name=my_app
 	EOF
-	mkdir -p $HOME/.biome
+	mkdir -p "$HOME/.biome"
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export A_VARIABLE="value"
 	EOF
@@ -113,8 +115,8 @@ load test_helper
 	$BIOME rm
 
 	# make sure the environment doesn't exist
-	run cat $HOME/.biome/my_app.sh
-	[[ "$status" == 1 ]]
+	run cat "$HOME/.biome/my_app.sh"
+	[[ "$status" != 0 ]]
 
 	# but also that the Biomefile does exist
 	[[ "$(cat Biomefile)" == "name=my_app" ]]
@@ -124,11 +126,11 @@ load test_helper
 	cat <<-EOF > Biomefile
 	name=my_app
 	EOF
-	mkdir -p $HOME/.biome
+	mkdir -p "$HOME/.biome"
 	# no environment
 
 	run $BIOME rm
-	[[ "$status" == 1 ]]
+	[[ "$status" != 0 ]]
 
 	# but also that the Biomefile does exist
 	[[ "$(cat Biomefile)" == "name=my_app" ]]
@@ -156,7 +158,7 @@ load test_helper
 	cat <<-EOF > Biomefile
 	name=my_app
 	EOF
-	mkdir -p $HOME/.biome
+	mkdir -p "$HOME/.biome"
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export A_VARIABLE="value"
 	export ANOTHER="content with spaces"
@@ -183,12 +185,12 @@ load test_helper
 @test "biome help will show help" {
 	run $BIOME help
 	[[ "$status" == 0 ]] &&
-	[[ "${lines[0]}" = "usage: biome <command>" ]]
+	[[ "${lines[0]}" == "usage: biome <command>" ]]
 }
 
 @test "biome will fail for an unknown command" {
 	run $BIOME something-unknown
-	[[ "$status" == 1 ]] &&
+	[[ "$status" != 0 ]] &&
 	[[ "${lines[0]}" = "Hmm, I don't know how to do that. Run biome help for assistance." ]]
 }
 
@@ -200,7 +202,7 @@ load test_helper
 	cat <<-EOF > Biomefile
 	name=my_app
 	EOF
-	mkdir -p $HOME/.biome
+	mkdir -p "$HOME/.biome"
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export FOO="bar"
 	EOF
@@ -224,30 +226,30 @@ load test_helper
 # ----------------------------------------------------------------------------
 @test "biome should be able to find a biomefile that is nested 1 level below the current cwd" {
 	echo "name=my_app" > ../Biomefile
-	mkdir -p $HOME/.biome
-	touch $HOME/.biome/my_app.sh
+	mkdir -p "$HOME/.biome"
+	touch "$HOME/.biome/my_app.sh"
 
 	run $BIOME use my_app
-	[ "$status" -eq 0 ]
+	[[ "$status" == "0" ]]
 	rm ../Biomefile
 }
+
 @test "biome should be able to find a biomefile that is nested multiple levels below the current cwd" {
 	echo "name=my_app" > ../../Biomefile
-	mkdir -p $HOME/.biome
-	touch $HOME/.biome/my_app.sh
+	mkdir -p "$HOME/.biome"
+	touch "$HOME/.biome/my_app.sh"
 
 	run $BIOME use my_app
-	[ "$status" -eq 0 ]
+	[[ "$status" == 0 ]]
 	rm ../../Biomefile
 }
+
 @test "biome fails when a biomefile does not exist at any level" {
-	mkdir -p $HOME/.biome
-	touch $HOME/.biome/my_app.sh
+	mkdir -p "$HOME/.biome"
+	touch "$HOME/.biome/my_app.sh"
 
 	run $BIOME use my_app
-	[ "$status" -eq 1 ]
+	[[ "$status" != 0 ]]
 }
-
-
 
 HOME="$OLDHOME"
