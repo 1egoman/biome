@@ -1,6 +1,5 @@
-<img src="https://raw.githubusercontent.com/1egoman/biome/master/resources/logo.png" style="width: 300px;" />
+<h1><a href="https://github.com/1egoman/biome" target="_blank"><img width="350" src="./logo.png"></a></h1>
 
-# Biome
 Biome is a tool to create isolated containers for your app's environment variables.
 
 [![CircleCI](https://circleci.com/gh/1egoman/biome.svg?style=shield)](https://circleci.com/gh/1egoman/biome)
