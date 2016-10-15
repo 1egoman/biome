@@ -39,7 +39,7 @@ function get_project {
 	# otherwise, throw an error
 	elif [[ "$PASSED_PROJECT" ]]; then
 		echo "Error: no such project $PASSED_PROJECT."
-		exit 1
+		exit 2
 	else
 		echo "Error: please pass a project as an argument or create a Biomefile with biome init."
 		exit 1
@@ -52,6 +52,7 @@ function set_meta_vars {
 	export BIOME_SHELL="true"
 	export BIOME_PROJECT="$PROJECT"
 }
+
 function unset_meta_vars {
 	unset BIOME_SHELL
 	unset BIOME_PROJECT
@@ -59,10 +60,12 @@ function unset_meta_vars {
 
 function get_variable {
 	read -p "Enter a variable name you'd like to add. " VAR_NAME
+
 	if [[ "$VAR_NAME" ]]; then
 		read -p "Enter $VAR_NAME's default value, or leave empty for none. " VAR_DEFAULT
 	fi
 }
+
 function make_template_project {
 	cat <<-EOF > ~/.biome/$PROJECT.sh
 	# A file that contains environment variables for a project
@@ -76,6 +79,7 @@ function make_template_project {
 # ~/.biome/$PROJECT.sh
 function fetch_var_values {
 	get_biomefile
+
 	if [[ -f "$BIOMEFILE" ]]; then
 		while read -u 10 i; do
 			if [[ ! "$i" =~ ^# ]]; then # not a comment
@@ -100,20 +104,20 @@ function fetch_var_values {
 						VARIABLE_VALUE=$VARIABLE_DEFAULT_VALUE
 					fi
 
-					echo export $VARIABLE_NAME=\"$VARIABLE_VALUE\" >> $HOME/.biome/$PROJECT.sh
+					echo "export $VARIABLE_NAME=\"$VARIABLE_VALUE\"" >> "$HOME/.biome/$PROJECT.sh"
 				fi
 			fi
 		done 10< "Biomefile"
 	else
 		echo "There isn't a Biomefile here. To create a new project, run biome init."
 		echo "For help, run biome help."
-		exit 1
+		exit 2
 	fi
 }
 
 # if ~/.biome doesn't exist, make it
 if [[ ! -d "$HOME/.biome" ]]; then
-	mkdir $HOME/.biome
+	mkdir "$HOME/.biome"
 fi
 
 # all the different subcommands
@@ -164,6 +168,7 @@ inject)
 # edit a specified project
 edit)
 	get_project $2
+
 	if [[ "$EDITOR" ]]; then
 		$EDITOR $PROJECT_PATH
 	else
@@ -206,7 +211,7 @@ init)
 		fi
 	else
 		echo "Error: Biomefile exists. To re-init, remove the local Biomefile and try again."
-		exit 1
+		exit 3
 	fi
 	;;
 
@@ -214,35 +219,35 @@ init)
 rm)
 	get_project $2
 	if [[ -f "$HOME/.biome/$PROJECT.sh" ]]; then
-		rm $HOME/.biome/$PROJECT.sh
+		rm "$HOME/.biome/$PROJECT.sh"
 		echo "Removed your environment. Run biome to re-configure."
 	else
 		echo "Error: There isn't an environment for this project."
-		exit 1
+		exit 2
 	fi
 	;;
 
 help)
-  echo "usage: biome <command>"
-  echo
-  echo "Commands:"
-  echo -e "  init\tCreate a new environment for the project in the current directory."
-  echo -e "  edit\tEdit the environment in the current directory."
-  echo -e "  use\tSpawn a subshell with the project in the cwd's sourced environment."
-  echo -e "  inject\tUpdate a new environment with changes since it has been activated with biome use."
-  echo -e "  rm\tDelete a project's environment so it can be reconfigured."
-  echo -e "  (no command)\tGiven the template specified in the Biomefile, create a new environment for your app."
-  echo
-  echo "Set up a new project:"
-  echo "  - Run biome init to make a new environment. You;ll be prompted for a name and the default configuration."
-  echo "  - Run biome use to try out your new environment. Leave the environment by running exit."
-  echo "  - Make any changes to your environment with biome edit"
-  echo
-  echo "Create a new environment in a project that already uses Biome:"
-  echo "  - Run biome. You'll be prompted for all the configuration values that the Biomefile contains."
-  echo "  - Run biome use to try out your new environment. Leave the environment by running exit."
-  echo
-  ;;
+	echo "usage: biome <command>"
+	echo
+	echo "Commands:"
+	echo -e "  init\tCreate a new environment for the project in the current directory."
+	echo -e "  edit\tEdit the environment in the current directory."
+	echo -e "  use\tSpawn a subshell with the project in the cwd's sourced environment."
+	echo -e "  inject\tUpdate a new environment with changes since it has been activated with biome use."
+	echo -e "  rm\tDelete a project's environment so it can be reconfigured."
+	echo -e "  (no command)\tGiven the template specified in the Biomefile, create a new environment for your app."
+	echo
+	echo "Set up a new project:"
+	echo "  - Run biome init to make a new environment. You;ll be prompted for a name and the default configuration."
+	echo "  - Run biome use to try out your new environment. Leave the environment by running exit."
+	echo "  - Make any changes to your environment with biome edit"
+	echo
+	echo "Create a new environment in a project that already uses Biome:"
+	echo "  - Run biome. You'll be prompted for all the configuration values that the Biomefile contains."
+	echo "  - Run biome use to try out your new environment. Leave the environment by running exit."
+	echo
+	;;
 
 *)
 	echo "Hmm, I don't know how to do that. Run biome help for assistance."
