@@ -1,6 +1,6 @@
-<h1><a href="https://github.com/1egoman/biome" target="_blank"><img width="350" src="./logo.png"></a></h1>
+[<img width="350" src="./logo.png">](https://github.com/1egoman/biome)
 
-Biome is a tool to create isolated containers for your app's environment variables.
+Biome is a tool that creates isolated containers for your app's environment variables.
 
 [![CircleCI](https://circleci.com/gh/1egoman/biome.svg?style=shield)](https://circleci.com/gh/1egoman/biome)
 
@@ -8,7 +8,7 @@ Biome is a tool to create isolated containers for your app's environment variabl
 Typically, one stores all their environment variables in `.env` (or something similar), and sources
 them in before running their app. This is bad for two reasons:
 
-1. Forget to gitignore your `.env` file? Time to regenerate all your secrets.
+1. Forgot to gitignore your `.env` file? Time to regenerate all your secrets.
 2. If you need to re-clone your project, you have to reconstruct your environment.
 
 Biome takes a different approach. Biome creates separate "environments" for each of your app's
@@ -76,7 +76,7 @@ them being `BIOME_PROJECT`. This contains the name of the current project that h
 the environment.
 
 - **Do I have to install Biome globally?**
-No. Some choose to install Biome locally (in the root of the project), which makes the process of
+No, some people choose to install Biome locally (in the root of the project), which makes the process of
 contributing easier for others.
 
 - **I'm facing problems using Biome. Help me!**
@@ -85,5 +85,5 @@ If you can't figure out a problem on your own, leave an issue and I'll take a lo
 - **I want to contribute.**
 Great! Pull requests are always welcome.
 
-----------
+---
 Created by [Ryan Gaus](http://rgaus.net)
