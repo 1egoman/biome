@@ -220,11 +220,11 @@ init)
 		else
 			while true; do
 				echo "Would you like a [h]idden .Biomefile or a [v]isible Biomefile?"
-				read -n 1 ACTION
+				read ACTION
 				case $ACTION in
 					h|H) BIOMEFILENAME=".Biomefile"; echo "idden"; break;;
 					v|V) BIOMEFILENAME="Biomefile"; echo "isible"; break;;
-					*) ;;
+					*) echo "";;
 				esac
 			done
 
