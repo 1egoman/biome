@@ -14,7 +14,7 @@ them in, before running their app. This is bad for two reasons:
 Biome takes a different approach. Biome creates separate "environments" for each of your app's
 configurations to live in. Each environment can easily be sourced to bring in all of your app's
 secrets. Each app's configuration lives in `~/.biome/app_name.sh` - all secrets live far away from
-code. Within each project is a `Biomefile` that references the container name in `~/.biome`, and
+code. Within each project is a `Biomefile` of `.Biomefile` that references the container name in `~/.biome`, and
 this file is version controlled along with your code. Combining these two files allow new users to
 easily construct their own version of your environment.
 
@@ -34,6 +34,7 @@ For help, run `biome help`.
 First, create a new environment by running `biome init`:
 ```
 Name of project? biome-project
+Would you like a [h]idden .Biomefile or a [v]isible Biomefile? v
 Enter a variable name you'd like to add. FOO      
 Enter FOO's default value, or leave empty for none. default value      
 Enter a variable name you'd like to add. 
@@ -57,7 +58,7 @@ Commands:
   use          Spawn a subshell with the project in the cwd's sourced environment.
   inject       Update a new environment with changes since it has been activated with biome use.
   rm           Delete a project's environment so it can be reconfigured.
-  (no command) Given the template specified in the Biomefile, creates a new environment for your app.
+  (no command) Given the template specified in the Biomefile or .Biomefile, creates a new environment for your app.
 
 Set up a new project:
   - Run biome init to make a new environment. You'll be prompted for a name and the default configuration.
@@ -65,7 +66,7 @@ Set up a new project:
   - Make any changes to your environment with biome edit
 
 Create a new environment in a project that already uses Biome:
-  - Run biome. You'll be prompted for all the configuration values that the Biomefile contains.
+  - Run biome. You'll be prompted for all the configuration values that the Biomefile or .Biomefile contains.
   - Run biome use to try out your new environment. Leave the environment by running exit.
 ```
 
