@@ -9,6 +9,7 @@ load test_helper
 @test "biome init will initialize a new project" {
 	INPUT="$(cat <<-EOF
 	my_app
+	v
 	FOO
 	bar
 
@@ -105,7 +106,15 @@ load test_helper
 	BAR=biome
 	BAZ=visible
 	EOF
+	
+	INPUT="$(cat <<-EOF
+	
 
+	
+	EOF)"
+	echo "$INPUT" | $BIOME
+
+	chmod 700 "$HOME/.biome/my_app.sh"
 	$(cmp $HOME/.biome/my_app.sh <<-EOF
 		export FOO="hello"
 		export BAR="biome"
