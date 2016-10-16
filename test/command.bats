@@ -98,7 +98,7 @@ load test_helper
 	BAR=world
 	BAZ=hidden
 	EOF
-	
+
 	cat <<-EOF > Biomefile
 	name=my_app
 	FOO=hello
