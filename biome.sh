@@ -55,7 +55,7 @@ function set_meta_vars {
 	# add the project name to the shell prompt if possible and necessary
 	if [[ -n "$BASH_VERSION" ]] && [[ -z "$BIOME_SHELL_INIT_CFG" ]]; then
 		INITIAL_PROMPT_COMMAND="$PROMPT_COMMAND"
-		export PROMPT_COMMAND="PS1=\"($PROJECT) \$PS1\"; unset PROMPT_COMMAND"
+		export PROMPT_COMMAND="[[ -z \"\$BIOME_SHELL_INIT_CFG\" ]] && PS1=\"($PROJECT) \$PS1\"; unset PROMPT_COMMAND"
 	fi
 }
 
