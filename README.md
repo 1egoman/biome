@@ -26,7 +26,7 @@ brew install biome
 
 or, here's a 1-liner to install it in `/usr/local/bin/biome`:
 ```bash
-curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /usr/local/bin/biome && sudo chmod +x /usr/local/bin/biome
+curl https://raw.githubusercontent.com/1egoman/biome/master/biome.sh > /tmp/biome && sudo install -m 555 /tmp/biome /usr/local/bin/ && rm -f /tmp/biome
 ```
 For help, run `biome help`.
 
