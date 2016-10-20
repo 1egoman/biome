@@ -152,7 +152,7 @@ case $1 in
 
 # given a project, source it into the current shell. Creates a 'biome shell'.
 use)
-	get_project $3
+	get_project $2
 	echo "Sourcing $PROJECT from $PROJECT_PATH"
 
 	# Spawn a new shell
