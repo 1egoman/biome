@@ -248,8 +248,16 @@ load test_helper
 	mkdir -p "$HOME/.biome"
 	touch "$HOME/.biome/my_app.sh"
 
-	run $BIOME use my_app
+	run $BIOME use
 	[[ "$status" != 0 ]]
+}
+
+@test "biome works when a user biome use's with an environment as an arg" {
+	mkdir -p "$HOME/.biome"
+	touch "$HOME/.biome/my_app.sh"
+
+	run $BIOME use my_app
+	[[ "$status" == 0 ]]
 }
 
 HOME="$OLDHOME"
