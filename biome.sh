@@ -231,7 +231,7 @@ init)
 			echo "The environment $PROJECT has been created. To start this environment, run biome use."
 		fi
 	else
-		echo "Error: Biomefile exists. To re-init, remove the local Biomefile and try again."
+		echo "Error: Biomefile exists. To start using this environment on your system run 'biome'"
 		exit 3
 	fi
 	;;
