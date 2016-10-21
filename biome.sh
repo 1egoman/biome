@@ -147,6 +147,13 @@ fi" >> ~/.bash_profile
 	fi
 fi
 
+# Parse the arguments for flags
+for arg in "$@"; do
+	case $arg in
+		-h|--hidden) HIDDEN=true;;
+	esac
+done
+
 # all the different subcommands
 case $1 in
 # Install all variables into the global project config
@@ -218,15 +225,11 @@ init)
 			# when it already exists...
 			echo "This project already exists. If you'd like to overwrite it, run rm ~/.biome/$PROJECT.sh then run this again."
 		else
-			while true; do
-				echo "Would you like a [h]idden .Biomefile or a [v]isible Biomefile?"
-				read ACTION
-				case $ACTION in
-					h|H) BIOMEFILENAME=".Biomefile"; echo "idden"; break;;
-					v|V) BIOMEFILENAME="Biomefile"; echo "isible"; break;;
-					*) echo "";;
-				esac
-			done
+			if [[ $HIDDEN == true ]]; then
+				BIOMEFILENAME=".Biomefile";
+			else
+				BIOMEFILENAME="Biomefile";
+			fi
 
 			echo "# This is a Biomefile. It helps you create an environment to run this app." > "$BIOMEFILENAME"
 			echo "# More info at https://github.com/1egoman/biome" >> "$BIOMEFILENAME"
