@@ -9,7 +9,7 @@
 function get_biomefile {
 	local find_prefix="$(pwd)"
 	local last_find_prefix=""
-	while [[ ! -f "$find_prefix/Biomefile" ]]; do
+	while [[ ! -f "$find_prefix/Biomefile" && ! -f "$find_prefix/.Biomefile" ]]; do
 		last_find_prefix="$find_prefix"
 		find_prefix="$(dirname "$last_find_prefix")"
 
@@ -17,7 +17,13 @@ function get_biomefile {
 			return 1 # no biomefile was found
 		fi
 	done
-	BIOMEFILE="$find_prefix/Biomefile"
+
+	# Biomefile has preference over .Biomefile
+	if [ -f "$find_prefix/Biomefile" ]; then
+		BIOMEFILE="$find_prefix/Biomefile"
+	else
+		BIOMEFILE="$find_prefix/.Biomefile"
+	fi
 }
 
 function get_project {
@@ -118,7 +124,7 @@ function fetch_var_values {
 					echo "export $VARIABLE_NAME=\"$VARIABLE_VALUE\"" >> "$HOME/.biome/$PROJECT.sh"
 				fi
 			fi
-		done 10< "Biomefile"
+		done 10< "$BIOMEFILE"
 	else
 		echo "There isn't a Biomefile here. To create a new project, run biome init."
 		echo "For help, run biome help."
@@ -140,6 +146,13 @@ if [[ ! -z \"\$BIOME_PROJECT\" ]]; then
 fi" >> ~/.bash_profile
 	fi
 fi
+
+# Parse the arguments for flags
+for arg in "$@"; do
+	case $arg in
+		-h|--hidden) HIDDEN=true;;
+	esac
+done
 
 # all the different subcommands
 case $1 in
@@ -202,7 +215,9 @@ edit)
 
 # Create a new local Biomefile and associated template
 init)
-	if [[ ! -f "Biomefile" ]]; then
+	get_biomefile
+
+	if [[ ! -f "$BIOMEFILE" ]]; then
 		read -p "Name of project? " PROJECT
 		PROJECT_PATH="$HOME/.biome/$PROJECT.sh"
 
@@ -210,14 +225,20 @@ init)
 			# when it already exists...
 			echo "This project already exists. If you'd like to overwrite it, run rm ~/.biome/$PROJECT.sh then run this again."
 		else
-			echo "# This is a Biomefile. It helps you create an environment to run this app." > Biomefile
-			echo "# More info at https://github.com/1egoman/biome" >> Biomefile
-			echo "name=$PROJECT" >> Biomefile
+			if [[ $HIDDEN == true ]]; then
+				BIOMEFILENAME=".Biomefile";
+			else
+				BIOMEFILENAME="Biomefile";
+			fi
+
+			echo "# This is a Biomefile. It helps you create an environment to run this app." > "$BIOMEFILENAME"
+			echo "# More info at https://github.com/1egoman/biome" >> "$BIOMEFILENAME"
+			echo "name=$PROJECT" >> "$BIOMEFILENAME"
 
 			# get variables
 			get_variable
 			while [[ "$VAR_NAME" ]]; do
-				echo "$VAR_NAME=$VAR_DEFAULT" >> Biomefile
+				echo "$VAR_NAME=$VAR_DEFAULT" >> "$BIOMEFILENAME"
 				get_variable
 			done
 
@@ -252,7 +273,7 @@ help)
 	echo "usage: biome <command>"
 	echo
 	echo "Commands:"
-	echo -e "  init\tCreate a new environment for the project in the current directory."
+	echo -e "  init [-h|--hidden]\tCreate a new environment for the project in the current directory. Use --hidden flag to use a hidden .Biomefile."
 	echo -e "  edit\tEdit the environment in the current directory."
 	echo -e "  use\tSpawn a subshell with the project in the cwd's sourced environment."
 	echo -e "  inject\tUpdate a new environment with changes since it has been activated with biome use."

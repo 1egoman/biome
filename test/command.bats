@@ -16,12 +16,30 @@ load test_helper
 	EOF)"
 
 	echo "$INPUT" | $BIOME init
+
+	chmod 700 "$HOME/.biome/my_app.sh"
 	$(cmp $HOME/.biome/my_app.sh <<-EOF
 		# A file that contains environment variables for a project
 		# Activate me with biome use my_app
 		# add variables like export FOO="bar"
 		# include other variables with source /path/to/more/vars
 		export FOO="baz"
+	EOF)
+}
+
+@test "biome init --hidden will initialize a new project with a .Biomefile" {
+	INPUT="$(cat <<-EOF
+	my_app
+
+	EOF)"
+
+	echo "$INPUT" | $BIOME init --hidden
+
+	chmod 700 "./.Biomefile"
+	$(cmp ./.Biomefile <<-EOF
+		# This is a Biomefile. It helps you create an environment to run this app
+		# More info at https://github.com/1egoman/biome
+		name=my_app
 	EOF)
 }
 
@@ -65,6 +83,59 @@ load test_helper
 		export FOO="data"
 		export BAR="world"
 		export FOO="more data"
+	EOF)
+}
+
+@test "biome will create the environment that's defined in the .Biomefile" {
+	cat <<-EOF > .Biomefile
+	name=my_app
+	FOO=hello
+	BAR=world
+	BAZ=
+	EOF
+
+	INPUT="$(cat <<-EOF
+	data
+
+	more data
+	EOF)"
+	echo "$INPUT" | $BIOME
+
+	chmod 700 "$HOME/.biome/my_app.sh"
+	$(cmp $HOME/.biome/my_app.sh <<-EOF
+		export FOO="data"
+		export BAR="world"
+		export FOO="more data"
+	EOF)
+}
+
+@test "biome will create the environment that's defined in the Biomefile should both a Biomefile and a .Biomefile be present" {
+	cat <<-EOF > .Biomefile
+	name=my_app
+	FOO=hello
+	BAR=world
+	BAZ=hidden
+	EOF
+
+	cat <<-EOF > Biomefile
+	name=my_app
+	FOO=hello
+	BAR=biome
+	BAZ=visible
+	EOF
+	
+	INPUT="$(cat <<-EOF
+	
+
+	
+	EOF)"
+	echo "$INPUT" | $BIOME
+
+	chmod 700 "$HOME/.biome/my_app.sh"
+	$(cmp $HOME/.biome/my_app.sh <<-EOF
+		export FOO="hello"
+		export BAR="biome"
+		export FOO="visible"
 	EOF)
 }
 
@@ -234,6 +305,16 @@ load test_helper
 	rm ../Biomefile
 }
 
+@test "biome should be able to find a .Biomefile that is nested 1 level below the current cwd" {
+	echo "name=my_app" > ../.Biomefile
+	mkdir -p "$HOME/.biome"
+	touch "$HOME/.biome/my_app.sh"
+
+	run $BIOME use my_app
+	[[ "$status" == "0" ]]
+	rm ../.Biomefile
+}
+
 @test "biome should be able to find a biomefile that is nested multiple levels below the current cwd" {
 	echo "name=my_app" > ../../Biomefile
 	mkdir -p "$HOME/.biome"
@@ -242,6 +323,16 @@ load test_helper
 	run $BIOME use my_app
 	[[ "$status" == 0 ]]
 	rm ../../Biomefile
+}
+
+@test "biome should be able to find a .Biomefile that is nested multiple levels below the current cwd" {
+	echo "name=my_app" > ../../.Biomefile
+	mkdir -p "$HOME/.biome"
+	touch "$HOME/.biome/my_app.sh"
+
+	run $BIOME use my_app
+	[[ "$status" == 0 ]]
+	rm ../../.Biomefile
 }
 
 @test "biome fails when a biomefile does not exist at any level" {
