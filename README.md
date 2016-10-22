@@ -52,7 +52,7 @@ To learn more, run `biome help`:
 usage: biome <command>
 
 Commands:
-  init         Create a new environment for the project in the current directory.
+  init [-h]    Create a new environment for the project in the current directory. Use the -h|--hidden flag to use a hidden .Biomefile.
   edit         Edit the environment in the current directory.
   use          Spawn a subshell with the project in the cwd's sourced environment.
   inject       Update a new environment with changes since it has been activated with biome use.
