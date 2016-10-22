@@ -260,7 +260,7 @@ load test_helper
 	export ANOTHER="content with spaces"
 	EOF
 
-	# log all environment variables within the shell to ~/environment
+	# log the prompt to ~/prompt 
 	OLDSHELL="$SHELL"
 	SHELL="bash -c 'echo \"$PS1\" > $HOME/prompt'"
 	run $BIOME use # use run so the command will always run so the shell can be reset
