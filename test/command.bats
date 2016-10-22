@@ -249,6 +249,27 @@ load test_helper
 	[[ "$(cat $HOME/environment | grep BIOME_PROJECT=my_app)" != "" ]];
 }
 
+@test "biome use modifies the command prompt to include the project name" {
+	# create Biomefile with pre-initialized data
+	cat <<-EOF > Biomefile
+	name=my_app
+	EOF
+	mkdir -p "$HOME/.biome"
+	cat <<-EOF > $HOME/.biome/my_app.sh
+	export A_VARIABLE="value"
+	export ANOTHER="content with spaces"
+	EOF
+
+	# log all environment variables within the shell to ~/environment
+	OLDSHELL="$SHELL"
+	SHELL="bash -c 'echo \"$PS1\" > $HOME/prompt'"
+	run $BIOME use # use run so the command will always run so the shell can be reset
+	SHELL="$OLDSHELL"
+
+	chmod 700 $HOME/.biome/my_app.sh
+	[[ "$(cat $HOME/prompt)" != "(my_app)"* ]];
+}
+
 # ----------------------------------------------------------------------------
 # biome help
 # ------------------------------------------------------------------------------
