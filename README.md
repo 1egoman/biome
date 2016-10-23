@@ -69,6 +69,11 @@ Create a new environment in a project that already uses Biome:
   - Run biome use to try out your new environment. Leave the environment by running exit.
 ```
 
+## Projects and Organisations using Biome
+- [Backstroke](https://github.com/1egoman/backstroke)
+- [Density](https://github.com/densityco)
+- [Add your Project](https://github.com/1egoman/biome/issues/30)
+
 ## FAQ
 - **Is there an easy way to tell which environment I'm in within a shell created by biome?**
 Biome sets a few additional environment variables (see them with `env | grep BIOME`), one of
