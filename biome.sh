@@ -281,7 +281,7 @@ help)
 	echo -e "  (no command)\tGiven the template specified in the Biomefile, create a new environment for your app."
 	echo
 	echo "Set up a new project:"
-	echo "  - Run biome init to make a new environment. You;ll be prompted for a name and the default configuration."
+	echo "  - Run biome init to make a new environment. You'll be prompted for a name and the default configuration."
 	echo "  - Run biome use to try out your new environment. Leave the environment by running exit."
 	echo "  - Make any changes to your environment with biome edit"
 	echo
