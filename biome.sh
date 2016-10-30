@@ -76,7 +76,7 @@ function unset_meta_vars {
 }
 
 function get_variable {
-	read -p "Enter a variable name you'd like to add. " VAR_NAME
+	read -p "Enter a variable name you'd like to add, or [Enter] to finish. " VAR_NAME
 
 	if [[ "$VAR_NAME" ]]; then
 		read -p "Enter $VAR_NAME's default value, or leave empty for none. " VAR_DEFAULT
