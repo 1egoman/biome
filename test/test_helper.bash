@@ -12,9 +12,8 @@ function clean_test {
 	cd $TEST_ROOT
 	[[ -d workspace/ ]] && rm -rf workspace/
 
-	mkdir workspace
-	mkdir workspace/cwd
-	mkdir workspace/home
+	mkdir -p workspace/cwd
+	mkdir -p workspace/home
 
 	chmod -R 777 workspace/
 

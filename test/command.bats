@@ -123,11 +123,9 @@ load test_helper
 	BAR=biome
 	BAZ=visible
 	EOF
-	
-	INPUT="$(cat <<-EOF
-	
 
-	
+	INPUT="$(cat <<-EOF
+
 	EOF)"
 	echo "$INPUT" | $BIOME
 
@@ -148,7 +146,9 @@ load test_helper
 	BAR=world
 	BAZ=
 	EOF
+
 	mkdir -p "$HOME/.biome"
+
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export ALREADY_EXISTS="hello"
 	EOF
@@ -178,7 +178,9 @@ load test_helper
 	cat <<-EOF > Biomefile
 	name=my_app
 	EOF
+
 	mkdir -p "$HOME/.biome"
+
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export A_VARIABLE="value"
 	EOF
@@ -197,6 +199,7 @@ load test_helper
 	cat <<-EOF > Biomefile
 	name=my_app
 	EOF
+
 	mkdir -p "$HOME/.biome"
 	# no environment
 
@@ -229,7 +232,9 @@ load test_helper
 	cat <<-EOF > Biomefile
 	name=my_app
 	EOF
+
 	mkdir -p "$HOME/.biome"
+
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export A_VARIABLE="value"
 	export ANOTHER="content with spaces"
@@ -254,13 +259,15 @@ load test_helper
 	cat <<-EOF > Biomefile
 	name=my_app
 	EOF
+
 	mkdir -p "$HOME/.biome"
+
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export A_VARIABLE="value"
 	export ANOTHER="content with spaces"
 	EOF
 
-	# log the prompt to ~/prompt 
+	# log the prompt to ~/prompt
 	OLDSHELL="$SHELL"
 	SHELL="bash -c 'echo \"$PS1\" > $HOME/prompt'"
 	run $BIOME use # use run so the command will always run so the shell can be reset
@@ -294,7 +301,9 @@ load test_helper
 	cat <<-EOF > Biomefile
 	name=my_app
 	EOF
+
 	mkdir -p "$HOME/.biome"
+
 	cat <<-EOF > $HOME/.biome/my_app.sh
 	export FOO="bar"
 	EOF
