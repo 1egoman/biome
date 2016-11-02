@@ -9,6 +9,7 @@
 function get_biomefile {
 	local find_prefix="$(pwd)"
 	local last_find_prefix=""
+
 	while [[ ! -f "$find_prefix/Biomefile" && ! -f "$find_prefix/.Biomefile" ]]; do
 		last_find_prefix="$find_prefix"
 		find_prefix="$(dirname "$last_find_prefix")"
@@ -19,7 +20,7 @@ function get_biomefile {
 	done
 
 	# Biomefile has preference over .Biomefile
-	if [ -f "$find_prefix/Biomefile" ]; then
+	if [[ -f "$find_prefix/Biomefile" ]]; then
 		BIOMEFILE="$find_prefix/Biomefile"
 	else
 		BIOMEFILE="$find_prefix/.Biomefile"
@@ -27,24 +28,24 @@ function get_biomefile {
 }
 
 function get_project {
-	PASSED_PROJECT=$1
-	PASSED_PROJECT_PATH="$HOME/.biome/$1.sh"
+	local passed_project=$1
+	local passed_project_path="$HOME/.biome/$1.sh"
 
 	# step 0: get the Biomefile path, if a project was not passed
 	get_biomefile
 
 	# step 1: if the passed project doesn't exist and there's a Biomefile, use the Biomefile.
-	if ([[ "$PASSED_PROJECT" == "" ]] || [[ ! -f "$PASSED_PROJECT_PATH" ]]) && [[ -f "$BIOMEFILE" ]]; then
+	if ([[ "$passed_project" == "" ]] || [[ ! -f "$passed_project_path" ]]) && [[ -f "$BIOMEFILE" ]]; then
 		PROJECT=$(cat $BIOMEFILE | grep ^name | awk -F= '{print $2}')
 
 	# if the passed project's path exists, then use the passed project
-	elif [[ -f "$PASSED_PROJECT_PATH" ]]; then
+	elif [[ -f "$passed_project_path" ]]; then
 		# use passed project
-		PROJECT="$PASSED_PROJECT"
+		PROJECT="$passed_project"
 
 	# otherwise, throw an error
-	elif [[ "$PASSED_PROJECT" ]]; then
-		echo "Error: no such project $PASSED_PROJECT."
+	elif [[ "$passed_project" ]]; then
+		echo "Error: no such project $passed_project."
 		exit 2
 	else
 		echo "Error: please pass a project as an argument or create a Biomefile with biome init."
