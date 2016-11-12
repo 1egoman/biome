@@ -385,13 +385,56 @@ load test_helper
 # Biomefile envionment names with spaces
 # ----------------------------------------------------------------------------
 @test "biome should be able to handle spaces in an environment name" {
-	echo "name=spaces for days" > ./Biomefile
-	mkdir -p "$HOME/.biome"
-	touch "$HOME/.biome/spaces for days.sh"
+	# create Biomefile ane pre-initialized data
+	cat <<-EOF > Biomefile
+	name=my app
+	EOF
 
-	run $BIOME use "spaces for days"
-	[[ "$status" == 0 ]]
-	rm ./Biomefile
+	mkdir -p "$HOME/.biome"
+
+	cat <<-EOF > "$HOME/.biome/my app.sh"
+	export A_VARIABLE="value"
+	export ANOTHER="content with spaces"
+	EOF
+
+	# log all environment variables within the shell to ~/environment
+	OLDSHELL="$SHELL"
+	SHELL="bash -c 'env > $HOME/environment'"
+	run $BIOME use # use run so the command will always run so the shell can be reset
+	SHELL="$OLDSHELL"
+
+	chmod 700 "$HOME/.biome/my app.sh"
+	# these variables should be set
+	[[ "$(cat $HOME/environment | grep A_VARIABLE=value)" != "" ]] &&
+	[[ "$(cat $HOME/environment | grep ANOTHER=content\ with\ spaces)" != "" ]] &&
+	[[ "$(cat $HOME/environment | grep BIOME_SHELL=true)" != "" ]] &&
+	[[ "$(cat $HOME/environment | grep BIOME_PROJECT=my\ app)" != "" ]];
+}
+@test "biome should be able to use an environment with spaces" {
+	# create Biomefile ane pre-initialized data
+	cat <<-EOF > Biomefile
+	name=my app
+	EOF
+
+	mkdir -p "$HOME/.biome"
+
+	cat <<-EOF > "$HOME/.biome/my app.sh"
+	export A_VARIABLE="value"
+	export ANOTHER="content with spaces"
+	EOF
+
+	# log all environment variables within the shell to ~/environment
+	OLDSHELL="$SHELL"
+	SHELL="bash -c 'env > $HOME/environment'"
+	run $BIOME use "my app" # use run so the command will always run so the shell can be reset
+	SHELL="$OLDSHELL"
+
+	chmod 700 "$HOME/.biome/my app.sh"
+	# these variables should be set
+	[[ "$(cat $HOME/environment | grep A_VARIABLE=value)" != "" ]] &&
+	[[ "$(cat $HOME/environment | grep ANOTHER=content\ with\ spaces)" != "" ]] &&
+	[[ "$(cat $HOME/environment | grep BIOME_SHELL=true)" != "" ]] &&
+	[[ "$(cat $HOME/environment | grep BIOME_PROJECT=my\ app)" != "" ]];
 }
 
 

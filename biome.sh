@@ -166,12 +166,12 @@ case $1 in
 
 # given a project, source it into the current shell. Creates a 'biome shell'.
 use)
-	get_project $2
+	get_project "${@:2}" # allow mutltiple words
 	echo "Sourcing $PROJECT from $PROJECT_PATH"
 
 	# Spawn a new shell
 	set_meta_vars
-	bash -c "$(cat $PROJECT_PATH) && $SHELL -l"
+	bash -c "$(cat "$PROJECT_PATH") && $SHELL -l"
 	unset_meta_vars
 	;;
 
