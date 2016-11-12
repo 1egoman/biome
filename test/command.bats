@@ -381,4 +381,18 @@ load test_helper
 	[[ "$status" == 0 ]]
 }
 
+# ----------------------------------------------------------------------------
+# Biomefile envionment names with spaces
+# ----------------------------------------------------------------------------
+@test "biome should be able to handle spaces in an environment name" {
+	echo "name=spaces for days" > ./Biomefile
+	mkdir -p "$HOME/.biome"
+	touch "$HOME/.biome/spaces for days.sh"
+
+	run $BIOME use "spaces for days"
+	[[ "$status" == 0 ]]
+	rm ./Biomefile
+}
+
+
 HOME="$OLDHOME"
