@@ -168,10 +168,11 @@ case $1 in
 use)
 	get_project $2
 	echo "Sourcing $PROJECT from $PROJECT_PATH"
+	env_contents=$(cat "$PROJECT_PATH")
 
 	# Spawn a new shell
 	set_meta_vars
-	bash -c "$(cat $PROJECT_PATH) && $SHELL -l"
+	bash -c "echo $env_contents && $SHELL -l"
 	unset_meta_vars
 	;;
 
