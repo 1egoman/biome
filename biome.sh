@@ -85,7 +85,7 @@ function get_variable {
 }
 
 function make_template_project {
-	cat <<-EOF > ~/.biome/$PROJECT.sh
+	cat <<-EOF > "$HOME/.biome/$PROJECT.sh"
 	# A file that contains environment variables for a project
 	# Activate me with biome use $PROJECT
 	# add variables like export FOO="bar"
@@ -107,7 +107,7 @@ function fetch_var_values {
 
 				# also, get whether it's been set already.
 				if [[ -f "$PROJECT_PATH" ]]; then
-					VARIABLE_ALREADY_SET=$(cat $PROJECT_PATH | grep "^export $VARIABLE_NAME")
+					VARIABLE_ALREADY_SET=$(cat "$PROJECT_PATH" | grep "^export $VARIABLE_NAME")
 				else
 					VARIABLE_ALREADY_SET=""
 				fi
@@ -171,7 +171,7 @@ use)
 
 	# Spawn a new shell
 	set_meta_vars
-	bash -c "$(cat $PROJECT_PATH) && $SHELL -l"
+	bash -c "$(cat \"$PROJECT_PATH\") && $SHELL -l"
 	unset_meta_vars
 	;;
 
