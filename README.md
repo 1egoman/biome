@@ -67,3 +67,5 @@ Great! Pull requests are always welcome.
 
 ----------
 Created by [Ryan Gaus](http://rgaus.net)
+
+<!-- edit -->
