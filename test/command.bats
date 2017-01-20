@@ -86,6 +86,31 @@ load test_helper
 	EOF)
 }
 
+@test "biome will create the environment that's defined in the Biomefile, with whitespace" {
+	cat <<-EOF > Biomefile
+	name=my_app
+
+	FOO=hello
+
+	BAR=world
+	BAZ=
+	EOF
+
+	INPUT="$(cat <<-EOF
+	data
+
+	more data
+	EOF)"
+	echo "$INPUT" | $BIOME
+
+	chmod 700 "$HOME/.biome/my_app.sh"
+	$(cmp $HOME/.biome/my_app.sh <<-EOF
+		export FOO="data"
+		export BAR="world"
+		export FOO="more data"
+	EOF)
+}
+
 @test "biome will create the environment that's defined in the .Biomefile" {
 	cat <<-EOF > .Biomefile
 	name=my_app
