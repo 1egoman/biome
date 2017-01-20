@@ -100,7 +100,7 @@ function fetch_var_values {
 
 	if [[ -f "$BIOMEFILE" ]]; then
 		while read -u 10 i; do
-			if [[ ! "$i" =~ ^# ]]; then # not a comment
+			if [[ ! "$i" =~ ^# ]] && [[ "$i" != "" ]]; then # not a comment or empty line
 				# get the variable name, its default value
 				VARIABLE_NAME=$(echo $i | sed 's/=.*//')
 				VARIABLE_DEFAULT_VALUE=$(echo $i | cut -f2- -d'=')
