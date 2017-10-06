@@ -78,10 +78,10 @@ function unset_meta_vars {
 }
 
 function get_variable {
-	read -p "Enter a variable name you'd like to add, or [Enter] to finish. " VAR_NAME
+	read -r -p "Enter a variable name you'd like to add, or [Enter] to finish. " VAR_NAME
 
 	if [[ "$VAR_NAME" ]]; then
-		read -p "Enter $VAR_NAME's default value, or leave empty for none. " VAR_DEFAULT
+		read -r -p "Enter $VAR_NAME's default value, or leave empty for none. " VAR_DEFAULT
 	fi
 }
 
@@ -100,7 +100,7 @@ function fetch_var_values {
 	get_biomefile
 
 	if [[ -f "$BIOMEFILE" ]]; then
-		while read -u 10 i; do
+		while read -r -u 10 i; do
 			if [[ ! "$i" =~ ^# ]] && [[ "$i" != "" ]]; then # not a comment or empty line
 				# get the variable name, its default value
 				VARIABLE_NAME=$(echo "$i" | sed 's/=.*//')
@@ -116,7 +116,7 @@ function fetch_var_values {
 				if [[ "$VARIABLE_ALREADY_SET" != "" ]] && [[ "$VARIABLE_NAME" != "name" ]]; then
 					echo "$VARIABLE_NAME has been defined. Run biome edit to change its value."
 				elif [[ "$VARIABLE_NAME" != "name" ]]; then
-					read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
+					read -r -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
 
 					# replace the value with the default if the user didn't enter anything
 					if [[ "$VARIABLE_VALUE" == "" ]]; then
@@ -220,7 +220,7 @@ init)
 	get_biomefile
 
 	if [[ ! -f "$BIOMEFILE" ]]; then
-		read -p "Name of project? " PROJECT
+		read -r -p "Name of project? " PROJECT
 		PROJECT_PATH="$HOME/.biome/$PROJECT.sh"
 
 		if [[ -f "$PROJECT_PATH" ]]; then
