@@ -7,8 +7,9 @@
 # Walk backward from the pwd until the root. If there's a Biomefile, return it.
 # Once at the root, (where dirname of a path equals the path itself), throw an error.
 function get_biomefile {
-	local find_prefix="$(pwd)"
+	local find_prefix=""
 	local last_find_prefix=""
+	find_prefix="$(pwd)"
 
 	while [[ ! -f "$find_prefix/Biomefile" && ! -f "$find_prefix/.Biomefile" ]]; do
 		last_find_prefix="$find_prefix"
@@ -36,7 +37,7 @@ function get_project {
 
 	# step 1: if the passed project doesn't exist and there's a Biomefile, use the Biomefile.
 	if ([[ "$passed_project" == "" ]] || [[ ! -f "$passed_project_path" ]]) && [[ -f "$BIOMEFILE" ]]; then
-		PROJECT=$(cat $BIOMEFILE | grep ^name | awk -F= '{print $2}')
+		PROJECT=$(grep ^name "${BIOMEFILE}" | awk -F= '{print $2}')
 
 	# if the passed project's path exists, then use the passed project
 	elif [[ -f "$passed_project_path" ]]; then
@@ -77,10 +78,10 @@ function unset_meta_vars {
 }
 
 function get_variable {
-	read -p "Enter a variable name you'd like to add, or [Enter] to finish. " VAR_NAME
+	read -r -p "Enter a variable name you'd like to add, or [Enter] to finish. " VAR_NAME
 
 	if [[ "$VAR_NAME" ]]; then
-		read -p "Enter $VAR_NAME's default value, or leave empty for none. " VAR_DEFAULT
+		read -r -p "Enter $VAR_NAME's default value, or leave empty for none. " VAR_DEFAULT
 	fi
 }
 
@@ -99,15 +100,15 @@ function fetch_var_values {
 	get_biomefile
 
 	if [[ -f "$BIOMEFILE" ]]; then
-		while read -u 10 i; do
+		while read -r -u 10 i; do
 			if [[ ! "$i" =~ ^# ]] && [[ "$i" != "" ]]; then # not a comment or empty line
 				# get the variable name, its default value
-				VARIABLE_NAME=$(echo $i | sed 's/=.*//')
-				VARIABLE_DEFAULT_VALUE=$(echo $i | cut -f2- -d'=')
+				VARIABLE_NAME=$(echo "$i" | sed 's/=.*//')
+				VARIABLE_DEFAULT_VALUE=$(echo "$i" | cut -f2- -d'=')
 
 				# also, get whether it's been set already.
 				if [[ -f "$PROJECT_PATH" ]]; then
-					VARIABLE_ALREADY_SET=$(cat "$PROJECT_PATH" | grep "^export $VARIABLE_NAME")
+					VARIABLE_ALREADY_SET=$(grep "^export $VARIABLE_NAME" "$PROJECT_PATH")
 				else
 					VARIABLE_ALREADY_SET=""
 				fi
@@ -115,7 +116,7 @@ function fetch_var_values {
 				if [[ "$VARIABLE_ALREADY_SET" != "" ]] && [[ "$VARIABLE_NAME" != "name" ]]; then
 					echo "$VARIABLE_NAME has been defined. Run biome edit to change its value."
 				elif [[ "$VARIABLE_NAME" != "name" ]]; then
-					read -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
+					read -r -p "Value for $VARIABLE_NAME? ($VARIABLE_DEFAULT_VALUE) " VARIABLE_VALUE
 
 					# replace the value with the default if the user didn't enter anything
 					if [[ "$VARIABLE_VALUE" == "" ]]; then
@@ -159,7 +160,7 @@ done
 case $1 in
 # Install all variables into the global project config
 '')
-	get_project $2
+	get_project "$2"
 	fetch_var_values
 	echo "All variables for $PROJECT have been defined. To start this environment, run biome use."
 	;;
@@ -191,7 +192,7 @@ inject)
 
 	# if already inside of a biome shell, update its contents.
 	if [[ "$BIOME_PROJECT" != "" ]]; then
-		BIOME_PROJECT_NO_WHITESPACE="$(echo $BIOME_PROJECT | sed 's/ //g')"
+		BIOME_PROJECT_NO_WHITESPACE="$(echo "$BIOME_PROJECT" | sed 's/ //g')"
 		PROJECT_PATH="$HOME/.biome/$BIOME_PROJECT_NO_WHITESPACE.sh"
 		source "$PROJECT_PATH"
 		echo "Injected data from $BIOME_PROJECT_NO_WHITESPACE."
@@ -202,12 +203,12 @@ inject)
 
 # edit a specified project
 edit)
-	get_project $2
+	get_project "$2"
 
 	if [[ "$EDITOR" ]]; then
-		$EDITOR $PROJECT_PATH
+		"$EDITOR" "$PROJECT_PATH"
 	else
-		vi $PROJECT_PATH
+		vi "$PROJECT_PATH"
 	fi
 
 	echo "Note: if you have any biome sessions open, make sure you run biome inject to copy any
@@ -219,7 +220,7 @@ init)
 	get_biomefile
 
 	if [[ ! -f "$BIOMEFILE" ]]; then
-		read -p "Name of project? " PROJECT
+		read -r -p "Name of project? " PROJECT
 		PROJECT_PATH="$HOME/.biome/$PROJECT.sh"
 
 		if [[ -f "$PROJECT_PATH" ]]; then
@@ -260,7 +261,7 @@ init)
 
 # Nuke the specified project's environment and Biomefile
 rm)
-	get_project $2
+	get_project "$2"
 	if [[ -f "$HOME/.biome/$PROJECT.sh" ]]; then
 		rm "$HOME/.biome/$PROJECT.sh"
 		echo "Removed your environment. Run biome to re-configure."
