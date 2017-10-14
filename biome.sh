@@ -9,7 +9,7 @@
 function get_biomefile {
 	local find_prefix
 	local last_find_prefix
-	find_prefix="${pwd)"
+	find_prefix="$(pwd)"
 
 	while [[ ! -f "${find_prefix}/Biomefile" && ! -f "${find_prefix}/.Biomefile" ]]; do
 		last_find_prefix="${find_prefix}"
