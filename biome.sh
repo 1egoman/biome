@@ -12,14 +12,14 @@ function get_biomefile {
 	find_prefix="$(pwd)"
 
 	while true; do
-    last_find_prefix="$find_prefix"
-    find_prefix="$(dirname "$last_find_prefix")"
+		last_find_prefix="$find_prefix"
+		find_prefix="$(dirname "$last_find_prefix")"
 
-   	# Biomefile has preference over .Biomefile
-   	[[ -f "$find_prefix/Biomefile" ]] && { echo "$find_prefix/Biomefile"; return 0; }
-    [[ -f "$find_prefix/.Biomefile" ]] && { echo "$find_prefix/.Biomefile"; return 0; }
+		# Biomefile has preference over .Biomefile
+		[[ -f "$find_prefix/Biomefile" ]] && { echo "$find_prefix/Biomefile"; return 0; }
+		[[ -f "$find_prefix/.Biomefile" ]] && { echo "$find_prefix/.Biomefile"; return 0; }
 
-    # Biomefile not found
+		# Biomefile not found
 		[[ "$find_prefix" == "$last_find_prefix" ]] && return 1
 	done
 }
