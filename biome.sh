@@ -4,28 +4,24 @@
 # Written by Ryan Gaus
 
 # From the CWD, find the nearest Biomefile.
-# Walk backward from the pwd until the root. If there's a Biomefile, return it.
+# Walk backward from the pwd until the root. If there's a Biomefile, echoes it and returns 0. Otherwise, returns 1.
 # Once at the root, (where dirname of a path equals the path itself), throw an error.
 function get_biomefile {
 	local find_prefix=""
 	local last_find_prefix=""
 	find_prefix="$(pwd)"
 
-	while [[ ! -f "$find_prefix/Biomefile" && ! -f "$find_prefix/.Biomefile" ]]; do
+	while true; do
 		last_find_prefix="$find_prefix"
 		find_prefix="$(dirname "$last_find_prefix")"
 
-		if [[ "$find_prefix" == "$last_find_prefix" ]]; then
-			return 1 # no biomefile was found
-		fi
-	done
+    	# Biomefile has preference over .Biomefile
+	    [[ -f "$find_prefix/Biomefile" ]] && { echo "$find_prefix/Biomefile"; return 0; }
+        [[ -f "$find_prefix/.Biomefile" ]] && { echo "$find_prefix/.Biomefile"; return 0; }
 
-	# Biomefile has preference over .Biomefile
-	if [[ -f "$find_prefix/Biomefile" ]]; then
-		BIOMEFILE="$find_prefix/Biomefile"
-	else
-		BIOMEFILE="$find_prefix/.Biomefile"
-	fi
+        # Biomefile not found
+		[[ "$find_prefix" == "$last_find_prefix" ]] && return 1
+	done
 }
 
 function get_project {
@@ -33,7 +29,7 @@ function get_project {
 	local passed_project_path="$HOME/.biome/$1.sh"
 
 	# step 0: get the Biomefile path, if a project was not passed
-	get_biomefile
+	BIOMEFILE=$(get_biomefile)
 
 	# step 1: if the passed project doesn't exist and there's a Biomefile, use the Biomefile.
 	if ([[ "$passed_project" == "" ]] || [[ ! -f "$passed_project_path" ]]) && [[ -f "$BIOMEFILE" ]]; then
@@ -97,7 +93,7 @@ function make_template_project {
 # Get all defined variables in the Biomefile, and ask the user for their values. Stick these in
 # ~/.biome/$PROJECT.sh
 function fetch_var_values {
-	get_biomefile
+	BIOMEFILE=$(get_biomefile)
 
 	if [[ -f "$BIOMEFILE" ]]; then
 		while read -r -u 10 i; do
@@ -217,7 +213,7 @@ edit)
 
 # Create a new local Biomefile and associated template
 init)
-	get_biomefile
+	BIOMEFILE=$(get_biomefile)
 
 	if [[ ! -f "$BIOMEFILE" ]]; then
 		read -r -p "Name of project? " PROJECT
