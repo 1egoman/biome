@@ -192,7 +192,7 @@ inject)
 
 	# if already inside of a biome shell, update its contents.
 	if [[ "${BIOME_PROJECT}" != '' ]]; then
-		BIOME_PROJECT_NO_WHITESPACE="echo ${BIOME_PROJECT} | sed 's/ //g')"
+		BIOME_PROJECT_NO_WHITESPACE="$(echo ${BIOME_PROJECT} | sed 's/ //g')"
 		PROJECT_PATH="${HOME}/.biome/${BIOME_PROJECT_NO_WHITESPACE}.sh"
 		source "${PROJECT_PATH}"
 		echo "Injected data from ${BIOME_PROJECT_NO_WHITESPACE}."
